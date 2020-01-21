@@ -41,11 +41,11 @@ export default function Blog() {
       title: 'Hello World',
       onConfirm: () => {
         console.log('ok');
-        modal.close();
+        modal.hide();
       },
       onCancel: () => {
         console.log('cancel');
-        modal.close();
+        modal.hide();
       }
     });
   };
