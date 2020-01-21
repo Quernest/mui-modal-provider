@@ -39,6 +39,7 @@ export default function Blog() {
   const handleClick = () => {
     const modal = showModal(HelloWorldDialog, {
       title: 'Hello World',
+      description: 'description text',
       onConfirm: () => {
         console.log('ok');
         modal.hide();
