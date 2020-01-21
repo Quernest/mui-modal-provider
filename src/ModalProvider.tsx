@@ -30,7 +30,7 @@ const ModalProvider: FC = ({ children }) => {
   );
 
   const showModal = React.useCallback(
-    (component, props = {}) => {
+    (component: React.ComponentType<any>, props: Object = {}) => {
       const id = `${(+new Date()).toString(16)}`;
 
       setState(prevState => ({
