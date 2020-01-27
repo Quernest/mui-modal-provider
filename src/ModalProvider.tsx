@@ -5,29 +5,25 @@ import initialState, { IState } from './State';
 const ModalProvider: FC = ({ children }) => {
   const [state, setState] = React.useState<IState>(initialState);
 
-  const hideModal = React.useCallback(
-    (id: string) =>
-      setState(prevState => ({
-        ...prevState,
-        [id]: {
-          ...prevState[id],
-          props: {
-            ...prevState.props,
-            open: false,
-          },
+  const hideModal = React.useCallback((id: string) => {
+    setState(prevState => ({
+      ...prevState,
+      [id]: {
+        ...prevState[id],
+        props: {
+          ...(prevState[id] ? prevState[id].props : {}),
+          open: false,
         },
-      })),
-    []
-  );
+      },
+    }));
+  }, []);
 
-  const destroyModal = React.useCallback(
-    (id: string) =>
-      setState(prevState => {
-        const { [id]: x, ...newState } = prevState;
-        return newState;
-      }),
-    []
-  );
+  const destroyModal = React.useCallback((id: string) => {
+    setState(prevState => {
+      const { [id]: x, ...newState } = prevState;
+      return newState;
+    });
+  }, []);
 
   const showModal = React.useCallback(
     (component: React.ComponentType<any>, props: Object = {}) => {
