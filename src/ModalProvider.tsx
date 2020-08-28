@@ -36,6 +36,7 @@ const ModalProvider: FC = ({ children }) => {
           props: {
             ...props,
             ...newProps,
+            open: true,
           },
         },
       });
