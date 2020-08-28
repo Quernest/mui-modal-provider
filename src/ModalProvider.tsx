@@ -29,18 +29,26 @@ const ModalProvider: FC = ({ children }) => {
     (component: React.ComponentType<any>, props: Object = {}) => {
       const id = `${(+new Date()).toString(16)}`;
 
-      setState(prevState => ({
+      const updateState = (prevState: IState, newProps: Object = {}) => ({
         ...prevState,
         [id]: {
           component,
           props: {
             ...props,
-            open: true,
+            ...newProps,
           },
         },
-      }));
+      });
 
-      return { id, hide: () => hideModal(id), destroy: () => destroyModal(id) };
+      setState(prevState => updateState(prevState));
+
+      return {
+        id,
+        hide: () => hideModal(id),
+        destroy: () => destroyModal(id),
+        update: (newProps: Object = {}) =>
+          setState((prevState: IState) => updateState(prevState, newProps)),
+      };
     },
     [destroyModal, hideModal]
   );

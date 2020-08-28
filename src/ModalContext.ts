@@ -11,6 +11,7 @@ export interface IModalContext {
     id: string;
     hide: () => void;
     destroy: () => void;
+    update: (newProps: Object) => void;
   };
   destroyModal(id: string): void;
 }
@@ -22,6 +23,7 @@ export const ModalContext = createContext<IModalContext>({
     id: 'id',
     hide: () => {},
     destroy: () => {},
+    update: () => {},
   }),
   destroyModal: () => {},
 });
