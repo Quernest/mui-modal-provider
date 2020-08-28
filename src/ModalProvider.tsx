@@ -1,73 +1,104 @@
 import React, { FC } from 'react';
 import { ModalContext } from './ModalContext';
-import initialState, { IState } from './State';
+import initialState, { IState, IProps } from './State';
 
 const ModalProvider: FC = ({ children }) => {
   const [state, setState] = React.useState<IState>(initialState);
 
-  const hideModal = React.useCallback((id: string) => {
-    setState(prevState => ({
-      ...prevState,
-      [id]: {
-        ...prevState[id],
-        props: {
-          ...(prevState[id] ? prevState[id].props : {}),
-          open: false,
+  const hideModal = React.useCallback(
+    (id: string) =>
+      setState(prevState => ({
+        ...prevState,
+        [id]: {
+          ...prevState[id],
+          props: {
+            ...(prevState[id] ? prevState[id].props : {}),
+            open: false,
+          } as IProps,
         },
-      },
-    }));
-  }, []);
+      })),
+    []
+  );
 
-  const destroyModal = React.useCallback((id: string) => {
-    setState(prevState => {
-      const { [id]: x, ...newState } = prevState;
-      return newState;
-    });
-  }, []);
+  const destroyModal = React.useCallback(
+    (id: string) =>
+      setState(prevState => {
+        const { [id]: x, ...newState } = prevState;
+        return newState;
+      }),
+    []
+  );
 
   const showModal = React.useCallback(
-    (component: React.ComponentType<any>, props: Object = {}) => {
-      const id = `${(+new Date()).toString(16)}`;
+    (component: React.ComponentType<any>, props: IProps) => {
+      const id = Math.random()
+        .toString(36)
+        .substr(2, 9);
 
-      const updateState = (prevState: IState, newProps: Object = {}) => ({
+      setState(prevState => ({
         ...prevState,
         [id]: {
           component,
           props: {
             ...props,
-            ...newProps,
             open: true,
           },
         },
-      });
-
-      setState(prevState => updateState(prevState));
+      }));
 
       return {
         id,
         hide: () => hideModal(id),
         destroy: () => destroyModal(id),
-        update: (newProps: Object = {}) =>
-          setState((prevState: IState) => updateState(prevState, newProps)),
+        update: (newProps: IProps) =>
+          setState(prevState =>
+            !prevState[id]
+              ? prevState
+              : {
+                  ...prevState,
+                  [id]: {
+                    ...prevState[id],
+                    props: {
+                      ...(prevState[id] ? prevState[id].props : {}),
+                      ...newProps,
+                    },
+                  },
+                }
+          ),
       };
     },
     [destroyModal, hideModal]
   );
 
-  function renderState() {
-    return Object.keys(state).map(id => {
+  const renderState = () =>
+    Object.keys(state).map(id => {
       const { component: Component, props } = state[id];
+
+      const handleClose = () => {
+        if (props && props.onClose) {
+          props.onClose();
+        }
+
+        hideModal(id);
+      };
+
+      const handleExited = () => {
+        if (props && props.onExited) {
+          props.onExited();
+        }
+
+        destroyModal(id);
+      };
 
       return Component ? (
         <Component
           {...props}
           key={id}
-          onClose={() => hideModal(id)}
-          onExited={() => destroyModal(id)}
+          onClose={handleClose}
+          onExited={handleExited}
         />
       ) : null;
     });
-  }
 
   return (
     <ModalContext.Provider

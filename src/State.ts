@@ -1,6 +1,13 @@
+export interface IProps {
+  open?: Boolean;
+  onClose?: () => void;
+  onExited?: () => void;
+  [key: string]: any;
+}
+
 export interface IStateElement {
   component: React.ComponentType<any>;
-  props: Object;
+  props: IProps;
 }
 
 export interface IState {

@@ -1,17 +1,17 @@
 import { createContext } from 'react';
-import { IState } from './State';
+import { IState, IProps } from './State';
 
 export interface IModalContext {
   state: IState;
   hideModal(id: string): void;
   showModal(
     component: React.ComponentType<any>,
-    props: Object
+    props: IProps
   ): {
     id: string;
     hide: () => void;
     destroy: () => void;
-    update: (newProps: Object) => void;
+    update: (newProps: IProps) => void;
   };
   destroyModal(id: string): void;
 }
