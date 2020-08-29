@@ -14,6 +14,7 @@ export interface IModalContext {
     update: (newProps: IProps) => void;
   };
   destroyModal(id: string): void;
+  updateModal(id: string, props: IProps): void;
 }
 
 export const ModalContext = createContext<IModalContext>({
@@ -26,4 +27,5 @@ export const ModalContext = createContext<IModalContext>({
     update: () => {},
   }),
   destroyModal: () => {},
+  updateModal: () => {},
 });

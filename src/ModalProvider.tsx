@@ -20,6 +20,25 @@ const ModalProvider: FC = ({ children }) => {
     []
   );
 
+  const updateModal = React.useCallback(
+    (id: string, props: IProps) =>
+      setState(prevState =>
+        !prevState[id]
+          ? prevState
+          : {
+              ...prevState,
+              [id]: {
+                ...prevState[id],
+                props: {
+                  ...(prevState[id] ? prevState[id].props : {}),
+                  ...props,
+                },
+              },
+            }
+      ),
+    []
+  );
+
   const destroyModal = React.useCallback(
     (id: string) =>
       setState(prevState => {
@@ -50,24 +69,10 @@ const ModalProvider: FC = ({ children }) => {
         id,
         hide: () => hideModal(id),
         destroy: () => destroyModal(id),
-        update: (newProps: IProps) =>
-          setState(prevState =>
-            !prevState[id]
-              ? prevState
-              : {
-                  ...prevState,
-                  [id]: {
-                    ...prevState[id],
-                    props: {
-                      ...(prevState[id] ? prevState[id].props : {}),
-                      ...newProps,
-                    },
-                  },
-                }
-          ),
+        update: (newProps: IProps) => updateModal(id, newProps),
       };
     },
-    [destroyModal, hideModal]
+    [destroyModal, hideModal, updateModal]
   );
 
   const renderState = () =>
@@ -102,7 +107,13 @@ const ModalProvider: FC = ({ children }) => {
 
   return (
     <ModalContext.Provider
-      value={{ hideModal, showModal, destroyModal, state }}
+      value={{
+        hideModal,
+        showModal,
+        destroyModal,
+        updateModal,
+        state,
+      }}
     >
       {children}
       {renderState()}
