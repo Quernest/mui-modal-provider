@@ -25,7 +25,7 @@ export default function useModal({ disableAutoDestroy }: IOptions = {}) {
         destroyModalsByRootId(rootIdRef.current);
       }
     },
-    [destroyModalsByRootId]
+    [disableAutoDestroy, destroyModalsByRootId]
   );
 
   return { showModal: handleShowModal, ...ctx };

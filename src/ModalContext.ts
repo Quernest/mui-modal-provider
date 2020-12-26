@@ -15,7 +15,7 @@ interface IModalContext {
     update: (newProps: IProps) => void;
   };
   destroyModal(id: string): void;
-  destroyModalsByRootId(rootId: string): void,
+  destroyModalsByRootId(rootId: string): void;
   updateModal(id: string, props: IProps): void;
 }
 

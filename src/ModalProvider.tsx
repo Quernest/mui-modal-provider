@@ -54,10 +54,10 @@ const ModalProvider: React.FC = ({ children }) => {
       setState(prevState =>
         Object.keys(prevState)
           .filter(key => !isKeyMatchRootId(key, rootId))
-          .reduce<IState>(
-            (obj, key) => ((obj[key] = prevState[key]), obj),
-            {}
-          )
+          .reduce<IState>((obj, key) => {
+            obj[key] = prevState[key];
+            return obj;
+          }, {})
       ),
     []
   );
