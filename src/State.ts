@@ -14,6 +14,4 @@ export interface IState {
   [id: string]: IStateElement;
 }
 
-const initialState: IState = {};
-
-export default initialState;
+export default {} as IState;
