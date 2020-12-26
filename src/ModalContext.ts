@@ -1,10 +1,11 @@
 import { createContext } from 'react';
 import { IState, IProps } from './State';
 
-export interface IModalContext {
+interface IModalContext {
   state: IState;
   hideModal(id: string): void;
   showModal(
+    id: string,
     component: React.ComponentType<any>,
     props: IProps
   ): {
@@ -14,10 +15,11 @@ export interface IModalContext {
     update: (newProps: IProps) => void;
   };
   destroyModal(id: string): void;
+  destroyModalsByRootId(rootId: string): void,
   updateModal(id: string, props: IProps): void;
 }
 
-export const ModalContext = createContext<IModalContext>({
+const ModalContext = createContext<IModalContext>({
   state: {},
   hideModal: () => {},
   showModal: () => ({
@@ -28,4 +30,7 @@ export const ModalContext = createContext<IModalContext>({
   }),
   destroyModal: () => {},
   updateModal: () => {},
+  destroyModalsByRootId: () => {},
 });
+
+export default ModalContext;

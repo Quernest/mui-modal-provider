@@ -1,8 +1,9 @@
-import React, { FC } from 'react';
-import { ModalContext } from './ModalContext';
+import React from 'react';
+import ModalContext from './ModalContext';
 import initialState, { IState, IProps } from './State';
+import { isKeyMatchRootId } from './utils';
 
-const ModalProvider: FC = ({ children }) => {
+const ModalProvider: React.FC = ({ children }) => {
   const [state, setState] = React.useState<IState>(initialState);
 
   const hideModal = React.useCallback(
@@ -48,12 +49,21 @@ const ModalProvider: FC = ({ children }) => {
     []
   );
 
-  const showModal = React.useCallback(
-    (component: React.ComponentType<any>, props: IProps) => {
-      const id = Math.random()
-        .toString(36)
-        .substr(2, 9);
+  const destroyModalsByRootId = React.useCallback(
+    (rootId: string) =>
+      setState(prevState =>
+        Object.keys(prevState)
+          .filter(key => !isKeyMatchRootId(key, rootId))
+          .reduce<IState>(
+            (obj, key) => ((obj[key] = prevState[key]), obj),
+            {}
+          )
+      ),
+    []
+  );
 
+  const showModal = React.useCallback(
+    (id: string, component: React.ComponentType<any>, props: IProps) => {
       setState(prevState => ({
         ...prevState,
         [id]: {
@@ -111,6 +121,7 @@ const ModalProvider: FC = ({ children }) => {
         hideModal,
         showModal,
         destroyModal,
+        destroyModalsByRootId,
         updateModal,
         state,
       }}
