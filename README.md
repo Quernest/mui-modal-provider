@@ -33,6 +33,7 @@ const HelloWorldDialog = ({
   onConfirm,
   ...props
 }) => (
+  // {...props} <--- is mandatory
   <Dialog open={false} {...props}>
     <DialogTitle>{title}</DialogTitle>
     <DialogContent>
