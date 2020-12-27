@@ -22,7 +22,7 @@ const ModalProvider: React.FC = ({ children }) => {
   );
 
   const updateModal = React.useCallback(
-    (id: string, props: IProps) =>
+    (id: string, { open, ...props }: IProps) =>
       setState(prevState =>
         !prevState[id]
           ? prevState
@@ -89,17 +89,17 @@ const ModalProvider: React.FC = ({ children }) => {
     Object.keys(state).map(id => {
       const { component: Component, props } = state[id];
 
-      const handleClose = () => {
+      const handleClose = (...args: any[]) => {
         if (props && props.onClose) {
-          props.onClose();
+          props.onClose(...args);
         }
 
         hideModal(id);
       };
 
-      const handleExited = () => {
+      const handleExited = (...args: any[]) => {
         if (props && props.onExited) {
-          props.onExited();
+          props.onExited(...args);
         }
 
         destroyModal(id);

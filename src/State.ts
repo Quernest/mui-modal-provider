@@ -1,7 +1,5 @@
 export interface IProps {
   open?: Boolean;
-  onClose?: () => void;
-  onExited?: () => void;
   [key: string]: any;
 }
 
