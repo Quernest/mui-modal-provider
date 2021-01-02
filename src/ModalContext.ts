@@ -1,28 +1,55 @@
-import { createContext } from 'react';
-import { IState, IProps } from './State';
+import { createContext, ComponentType } from 'react';
 
-interface IModalContext {
-  state: IState;
-  hideModal(id: string): void;
-  showModal(
-    id: string,
-    component: React.ComponentType<any>,
-    props: IProps
-  ): {
-    id: string;
-    hide: () => void;
-    destroy: () => void;
-    update: (newProps: IProps) => void;
-  };
-  destroyModal(id: string): void;
-  destroyModalsByRootId(rootId: string): void;
-  updateModal(id: string, props: IProps): void;
-}
+export type Props = {
+  open?: Boolean;
+  [key: string]: any;
+};
 
-const ModalContext = createContext<IModalContext>({
+export type StateElement = {
+  component: ComponentType<any>;
+  props?: Props;
+};
+
+export type State = {
+  [id: string]: StateElement;
+};
+
+export type ModalComponent<P> = ComponentType<P>;
+export type ModalComponentProps<P> = Omit<P, 'open'>;
+
+export type MakeShowModalFn = <T extends Props>(
+  id: string
+) => <P extends T>(
+  component: ModalComponent<P>,
+  props?: ModalComponentProps<P>
+) => {
+  id: string;
+  hide: () => void;
+  destroy: () => void;
+  update: (newProps: Partial<ModalComponentProps<P>>) => void;
+};
+
+export type UpdateModalFn = <P extends Props>(
+  id: string,
+  props: Partial<Omit<P, 'open'>>
+) => void;
+export type HideModalFn = (id: string) => void;
+export type DestroyModalFn = (id: string) => void;
+export type DestroyModalByRootIdFn = (rootId: string) => void;
+
+type ModalContextState = {
+  state: State;
+  hideModal: HideModalFn;
+  makeShowModal: MakeShowModalFn;
+  destroyModal: DestroyModalFn;
+  destroyModalsByRootId: DestroyModalByRootIdFn;
+  updateModal: UpdateModalFn;
+};
+
+const ModalContext = createContext<ModalContextState>({
   state: {},
   hideModal: () => {},
-  showModal: () => ({
+  makeShowModal: () => () => ({
     id: 'id',
     hide: () => {},
     destroy: () => {},

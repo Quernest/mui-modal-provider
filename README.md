@@ -19,85 +19,43 @@ npm install mui-modal-provider # or yarn add mui-modal-provider
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ModalProvider, { useModal } from 'mui-modal-provider';
+import Dialog, { DialogProps } from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
 
-const HelloWorldDialog = ({
-  title,
-  description,
-  onCancel,
-  onConfirm,
-  ...props
-}) => (
-  // {...props} <--- is mandatory
-  <Dialog open={false} {...props}>
+type Props = DialogProps & {
+  title: string;
+};
+
+// ✔️ create the dialog you want to use
+const SimpleDialog: React.FC<Props> = ({ title, ...props }) => (
+  <Dialog {...props}>
     <DialogTitle>{title}</DialogTitle>
-    <DialogContent>
-      <DialogContentText>{description}</DialogContentText>
-    </DialogContent>
-    <DialogActions>
-      <Button onClick={onCancel} color="primary">
-        Cancel
-      </Button>
-      <Button onClick={onConfirm} color="primary">
-        Ok
-      </Button>
-    </DialogActions>
   </Dialog>
 );
 
-const Demo = () => {
+// ✔️ use modal hook and show the dialog
+const App = () => {
   const { showModal } = useModal();
-
-  const handleClick = () => {
-    let timeoutId;
-
-    // Show `HelloWorldDialog` with initial props
-    const modal = showModal(HelloWorldDialog, {
-      title: 'Hello World',
-      description: 'description text',
-      onConfirm: () => modal.hide(),
-      onCancel: () => modal.hide(),
-      onExited: () => {
-        // =========================
-        // ⚠️ Be careful with setImmediate, setInterval and setTimeout
-        // ⚠️ don't forget to clean up id after closing dialog.
-        // ⚠️ use `onExited` or `onClose` callback for this.
-        // =========================
-        clearTimeout(timeoutId);
-      }
-    });
-
-    // Updating props if needed.
-    timeoutId = setTimeout(() => {
-      modal.update({
-        title: 'Updated hello world',
-        description: 'updated description text',
-      });
-    }, 1000);
-  };
 
   return (
     <Button
       variant="contained"
-      onClick={handleClick}
+      onClick={() => showModal(SimpleDialog, { title: 'Simple Dialog' })}
       color="primary"
     >
-      show modal
+      simple dialog
     </Button>
-  )
-}
+  );
+};
 
-const App = () => (
+// ✔️ wrap the app with modal provider
+ReactDOM.render(
   <ModalProvider>
-    <Demo />
-  </ModalProvider>
+    <App />
+  </ModalProvider>,
+  document.getElementById('root')
 );
-
-ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
+### See more examples in [example](./example) folder
