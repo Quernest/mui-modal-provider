@@ -1,32 +1,32 @@
-import { useContext, useEffect, useCallback, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import ModalContext from './ModalContext';
-import { IProps } from './State';
 import { uid } from './utils';
 
-interface IOptions {
+type Options = {
   disableAutoDestroy?: boolean;
-}
+};
 
-export default function useModal({ disableAutoDestroy }: IOptions = {}) {
-  const rootIdRef = useRef<string>(uid(6));
-  const { showModal, destroyModalsByRootId, ...ctx } = useContext(ModalContext);
+const defaultOptions: Options = {
+  disableAutoDestroy: false,
+};
 
-  const handleShowModal = useCallback(
-    (component: React.ComponentType<any>, props: IProps) => {
-      const id = `${rootIdRef.current}.${uid(8)}`;
-      return showModal(id, component, props);
-    },
-    [showModal]
-  );
+export default function useModal(options: Options = defaultOptions) {
+  const { disableAutoDestroy } = { ...defaultOptions, ...options };
+  const {
+    makeShowModal,
+    destroyModalsByRootId: destroy,
+    ...otherContextProps
+  } = useContext(ModalContext);
+  const id = useRef<string>(uid(6));
 
   useEffect(
     () => () => {
       if (!disableAutoDestroy) {
-        destroyModalsByRootId(rootIdRef.current);
+        destroy(id.current);
       }
     },
-    [disableAutoDestroy, destroyModalsByRootId]
+    [disableAutoDestroy, destroy]
   );
 
-  return { showModal: handleShowModal, ...ctx };
+  return { showModal: makeShowModal(id.current), ...otherContextProps };
 }

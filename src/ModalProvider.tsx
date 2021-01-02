@@ -1,13 +1,19 @@
 import React from 'react';
-import ModalContext from './ModalContext';
-import initialState, { IState, IProps } from './State';
-import { isKeyMatchRootId } from './utils';
+import ModalContext, {
+  HideModalFn,
+  UpdateModalFn,
+  DestroyModalFn,
+  DestroyModalByRootIdFn,
+  MakeShowModalFn,
+  State,
+} from './ModalContext';
+import { isKeyMatchRootId, uid } from './utils';
 
 const ModalProvider: React.FC = ({ children }) => {
-  const [state, setState] = React.useState<IState>(initialState);
+  const [state, setState] = React.useState<State>({});
 
-  const hideModal = React.useCallback(
-    (id: string) =>
+  const hideModal = React.useCallback<HideModalFn>(
+    id =>
       setState(prevState => ({
         ...prevState,
         [id]: {
@@ -15,14 +21,14 @@ const ModalProvider: React.FC = ({ children }) => {
           props: {
             ...(prevState[id] ? prevState[id].props : {}),
             open: false,
-          } as IProps,
+          },
         },
       })),
     []
   );
 
-  const updateModal = React.useCallback(
-    (id: string, { open, ...props }: IProps) =>
+  const updateModal = React.useCallback<UpdateModalFn>(
+    (id, { open, ...props }) =>
       setState(prevState =>
         !prevState[id]
           ? prevState
@@ -40,21 +46,21 @@ const ModalProvider: React.FC = ({ children }) => {
     []
   );
 
-  const destroyModal = React.useCallback(
-    (id: string) =>
+  const destroyModal = React.useCallback<DestroyModalFn>(
+    id =>
       setState(prevState => {
-        const { [id]: x, ...newState } = prevState;
+        const { [id]: _, ...newState } = prevState;
         return newState;
       }),
     []
   );
 
-  const destroyModalsByRootId = React.useCallback(
-    (rootId: string) =>
+  const destroyModalsByRootId = React.useCallback<DestroyModalByRootIdFn>(
+    rootId =>
       setState(prevState =>
         Object.keys(prevState)
           .filter(key => !isKeyMatchRootId(key, rootId))
-          .reduce<IState>((obj, key) => {
+          .reduce<State>((obj, key) => {
             obj[key] = prevState[key];
             return obj;
           }, {})
@@ -62,8 +68,10 @@ const ModalProvider: React.FC = ({ children }) => {
     []
   );
 
-  const showModal = React.useCallback(
-    (id: string, component: React.ComponentType<any>, props: IProps) => {
+  const makeShowModal = React.useCallback<MakeShowModalFn>(
+    rootId => (component, props) => {
+      const id = `${rootId}${uid(8)}`;
+
       setState(prevState => ({
         ...prevState,
         [id]: {
@@ -79,7 +87,7 @@ const ModalProvider: React.FC = ({ children }) => {
         id,
         hide: () => hideModal(id),
         destroy: () => destroyModal(id),
-        update: (newProps: IProps) => updateModal(id, newProps),
+        update: newProps => updateModal(id, newProps),
       };
     },
     [destroyModal, hideModal, updateModal]
@@ -119,7 +127,7 @@ const ModalProvider: React.FC = ({ children }) => {
     <ModalContext.Provider
       value={{
         hideModal,
-        showModal,
+        makeShowModal,
         destroyModal,
         destroyModalsByRootId,
         updateModal,

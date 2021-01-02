@@ -1,5 +1,5 @@
 export const uid = (len: number = 8): string => {
-  const buf = [];
+  const buf: string[] = [];
   const chars =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const charlen = chars.length;
