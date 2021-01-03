@@ -3,7 +3,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import MuiButton from '@material-ui/core/Button';
 import { useModal } from '../../src';
 
-import { SimpleDialog, NestedDialog, ConfirmationDialog } from './components';
+import { SimpleDialog, NestedDialog, ConfirmationDialog, SimpleModal } from './components';
 
 const Button = withStyles(theme => ({
   root: {
@@ -67,6 +67,13 @@ const App = () => {
         color="primary"
       >
         confirmation dialog
+      </Button>
+      <Button
+        variant="contained"
+        onClick={() => showModal(SimpleModal)}
+        color="primary"
+      >
+        simple modal
       </Button>
     </React.Fragment>
   );
