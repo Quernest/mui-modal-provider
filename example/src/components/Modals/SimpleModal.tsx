@@ -17,7 +17,9 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const SimpleModal: React.FC<ModalProps> = props => {
+type Props = Omit<ModalProps, 'children'> & {};
+
+const SimpleModal: React.FC<Props> = (props) => {
   const classes = useStyles();
 
   return (

@@ -91,19 +91,19 @@ const ModalProvider: React.FC = ({ children }) => {
       const { component: Component, props } = state[id];
 
       const handleClose = (...args: any[]) => {
+        hideModal(id);
+
         if (props && props.onClose) {
           props.onClose(...args);
         }
-
-        hideModal(id);
       };
 
       const handleExited = (...args: any[]) => {
+        destroyModal(id);
+
         if (props && props.onExited) {
           props.onExited(...args);
         }
-
-        destroyModal(id);
       };
 
       return (
