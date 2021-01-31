@@ -46,7 +46,7 @@ type ModalContextState = {
   updateModal: UpdateModalFn;
 };
 
-const ModalContext = createContext<ModalContextState>({
+export const initialContextState: ModalContextState = {
   state: {},
   hideModal: () => {},
   makeShowModal: () => () => ({
@@ -58,6 +58,8 @@ const ModalContext = createContext<ModalContextState>({
   destroyModal: () => {},
   updateModal: () => {},
   destroyModalsByRootId: () => {},
-});
+};
+
+const ModalContext = createContext<ModalContextState>(initialContextState);
 
 export default ModalContext;

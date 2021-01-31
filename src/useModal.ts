@@ -1,4 +1,5 @@
 import { useContext, useEffect, useRef } from 'react';
+
 import ModalContext from './ModalContext';
 import { uid } from './utils';
 

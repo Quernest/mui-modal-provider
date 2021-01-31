@@ -1,5 +1,5 @@
 {
-  "version": "1.3.4",
+  "version": "1.3.5",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -10,6 +10,7 @@
     "start": "tsdx watch",
     "build": "tsdx build",
     "test": "tsdx test --passWithNoTests",
+    "test:coverage": "yarn test --coverage",
     "lint": "tsdx lint",
     "prepare": "tsdx build"
   },
@@ -23,6 +24,16 @@
     "semi": true,
     "singleQuote": true,
     "trailingComma": "es5"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!src/test/*",
+      "!src/index.ts"
+    ],
+    "coverageReporters": [
+      "html"
+    ]
   },
   "name": "mui-modal-provider",
   "author": "Quernest",
@@ -38,6 +49,8 @@
     }
   },
   "devDependencies": {
+    "@testing-library/react": "^11.2.3",
+    "@testing-library/react-hooks": "^5.0.3",
     "@types/jest": "^26.0.10",
     "@types/react": "^16.9.48",
     "@types/react-dom": "^16.9.8",
