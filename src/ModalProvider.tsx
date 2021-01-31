@@ -1,4 +1,5 @@
 import React from 'react';
+
 import ModalContext, {
   HideModalFn,
   UpdateModalFn,
@@ -19,7 +20,7 @@ const ModalProvider: React.FC = ({ children }) => {
         [id]: {
           ...prevState[id],
           props: {
-            ...(prevState[id] ? prevState[id].props : {}),
+            ...(prevState[id] && prevState[id].props),
             open: false,
           },
         },
@@ -29,29 +30,21 @@ const ModalProvider: React.FC = ({ children }) => {
 
   const updateModal = React.useCallback<UpdateModalFn>(
     (id, { open, ...props }) =>
-      setState(prevState =>
-        !prevState[id]
-          ? prevState
-          : {
-              ...prevState,
-              [id]: {
-                ...prevState[id],
-                props: {
-                  ...(prevState[id] ? prevState[id].props : {}),
-                  ...props,
-                },
-              },
-            }
-      ),
+      setState(prevState => ({
+        ...prevState,
+        [id]: {
+          ...prevState[id],
+          props: {
+            ...(prevState[id] && prevState[id].props),
+            ...props,
+          },
+        },
+      })),
     []
   );
 
   const destroyModal = React.useCallback<DestroyModalFn>(
-    id =>
-      setState(prevState => {
-        const { [id]: _, ...newState } = prevState;
-        return newState;
-      }),
+    id => setState(({ [id]: _, ...newState }) => newState),
     []
   );
 
@@ -70,7 +63,7 @@ const ModalProvider: React.FC = ({ children }) => {
 
   const makeShowModal = React.useCallback<MakeShowModalFn>(
     rootId => (component, props) => {
-      const id = `${rootId}${uid(8)}`;
+      const id = `${rootId}.${uid(8)}`;
 
       setState(prevState => ({
         ...prevState,
@@ -113,14 +106,14 @@ const ModalProvider: React.FC = ({ children }) => {
         destroyModal(id);
       };
 
-      return Component ? (
+      return (
         <Component
           {...props}
           key={id}
           onClose={handleClose}
           onExited={handleExited}
         />
-      ) : null;
+      );
     });
 
   return (
