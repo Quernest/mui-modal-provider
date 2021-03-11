@@ -62,7 +62,7 @@ const ModalProvider: React.FC = ({ children }) => {
   );
 
   const makeShowModal = React.useCallback<MakeShowModalFn>(
-    rootId => (component, props) => {
+    rootId => (component, props, options) => {
       const id = `${rootId}.${uid(8)}`;
 
       setState(prevState => ({
@@ -73,6 +73,7 @@ const ModalProvider: React.FC = ({ children }) => {
             ...props,
             open: true,
           },
+          options,
         },
       }));
 
@@ -88,10 +89,14 @@ const ModalProvider: React.FC = ({ children }) => {
 
   const renderState = () =>
     Object.keys(state).map(id => {
-      const { component: Component, props } = state[id];
+      const { component: Component, props, options } = state[id];
 
       const handleClose = (...args: any[]) => {
-        hideModal(id);
+        if (options?.destroyOnClose) {
+          destroyModal(id);
+        } else {
+          hideModal(id);
+        }
 
         if (props && props.onClose) {
           props.onClose(...args);
@@ -111,7 +116,7 @@ const ModalProvider: React.FC = ({ children }) => {
           {...props}
           key={id}
           onClose={handleClose}
-          onExited={handleExited}
+          {...(!options?.destroyOnClose && { onExited: handleExited })}
         />
       );
     });
