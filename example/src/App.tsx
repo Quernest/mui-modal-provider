@@ -76,26 +76,15 @@ const App = () => {
       </Button>
       <Button
         variant="contained"
-        onClick={() => {
-          const modal = showModal(SimpleModal, {
-            onClose: () => {
-              modal.destroy();
-            }
-          });
-        }}
+        // @see https://github.com/Quernest/mui-modal-provider/issues/14
+        onClick={() => showModal(SimpleModal, undefined, { destroyOnClose: true })}
         color="primary"
       >
         simple modal
       </Button>
       <Button
         variant="contained"
-        onClick={() => {
-          const modal = showModal(TransitionModal, {
-            onExited: () => {
-              modal.destroy();
-            }
-          });
-        }}
+        onClick={() => showModal(TransitionModal)}
         color="primary"
       >
         transition modal

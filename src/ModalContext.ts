@@ -5,9 +5,14 @@ export type Props = {
   [key: string]: any;
 };
 
+export type Options = {
+  destroyOnClose?: boolean;
+};
+
 export type StateElement = {
   component: ComponentType<any>;
-  props?: Props;
+  props: Props;
+  options?: Options;
 };
 
 export type State = {
@@ -21,7 +26,8 @@ export type MakeShowModalFn = <T extends Props>(
   id: string
 ) => <P extends T>(
   component: ModalComponent<P>,
-  props?: ModalComponentProps<P>
+  props?: ModalComponentProps<P>,
+  options?: Options
 ) => {
   id: string;
   hide: () => void;
