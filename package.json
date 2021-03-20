@@ -28,7 +28,7 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{ts,tsx}",
-      "!src/test/*",
+      "!src/test-utils/*",
       "!src/index.ts"
     ],
     "coverageReporters": [

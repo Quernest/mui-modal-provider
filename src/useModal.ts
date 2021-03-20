@@ -1,4 +1,5 @@
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useCallback, useEffect, useRef } from 'react';
+import { ShowFn } from './types';
 
 import ModalContext from './ModalContext';
 import { uid } from './utils';
@@ -14,7 +15,7 @@ const defaultOptions: Options = {
 export default function useModal(options: Options = defaultOptions) {
   const { disableAutoDestroy } = { ...defaultOptions, ...options };
   const {
-    makeShowModal,
+    showModal,
     destroyModalsByRootId: destroy,
     ...otherContextProps
   } = useContext(ModalContext);
@@ -29,5 +30,14 @@ export default function useModal(options: Options = defaultOptions) {
     [disableAutoDestroy, destroy]
   );
 
-  return { showModal: makeShowModal(id.current), ...otherContextProps };
+  const handleShowModal = useCallback(
+    (id: string): ShowFn => (component, props, options) =>
+      showModal(component, props, { rootId: id, ...options }),
+    [showModal]
+  );
+
+  return {
+    showModal: handleShowModal(id.current),
+    ...otherContextProps,
+  };
 }

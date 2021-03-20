@@ -10,8 +10,3 @@ export const uid = (len: number = 8): string => {
 
   return buf.join('');
 };
-
-export const isKeyMatchRootId = (key: string, rootId: string) => {
-  const [keyRootId] = key.split('.');
-  return keyRootId === rootId;
-};

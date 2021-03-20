@@ -1,101 +1,100 @@
 import React from 'react';
+import ModalContext from './ModalContext';
+import reducer, { initialState, Types } from './reducer';
+import { ShowFn } from './types';
+import { uid } from './utils';
 
-import ModalContext, {
-  HideModalFn,
-  UpdateModalFn,
-  DestroyModalFn,
-  DestroyModalByRootIdFn,
-  MakeShowModalFn,
-  State,
-} from './ModalContext';
-import { isKeyMatchRootId, uid } from './utils';
+type Props = {
+  children: React.ReactNode;
+};
 
-const ModalProvider: React.FC = ({ children }) => {
-  const [state, setState] = React.useState<State>({});
+export default function ModalProvider({ children }: Props) {
+  const [state, dispatch] = React.useReducer(reducer, initialState);
 
-  const hideModal = React.useCallback<HideModalFn>(
-    id =>
-      setState(prevState => ({
-        ...prevState,
-        [id]: {
-          ...prevState[id],
-          props: {
-            ...(prevState[id] && prevState[id].props),
-            open: false,
-          },
-        },
-      })),
-    []
-  );
-
-  const updateModal = React.useCallback<UpdateModalFn>(
+  const update = React.useCallback(
     (id, { open, ...props }) =>
-      setState(prevState => ({
-        ...prevState,
-        [id]: {
-          ...prevState[id],
-          props: {
-            ...(prevState[id] && prevState[id].props),
-            ...props,
-          },
+      dispatch({
+        type: Types.UPDATE,
+        payload: {
+          id,
+          props,
         },
-      })),
-    []
+      }),
+    [dispatch]
   );
 
-  const destroyModal = React.useCallback<DestroyModalFn>(
-    id => setState(({ [id]: _, ...newState }) => newState),
-    []
+  const hide = React.useCallback(
+    id =>
+      dispatch({
+        type: Types.HIDE,
+        payload: {
+          id,
+        },
+      }),
+    [dispatch]
   );
 
-  const destroyModalsByRootId = React.useCallback<DestroyModalByRootIdFn>(
+  const destroy = React.useCallback(
+    id =>
+      dispatch({
+        type: Types.DESTROY,
+        payload: {
+          id,
+        },
+      }),
+    [dispatch]
+  );
+
+  const destroyByRootId = React.useCallback(
     rootId =>
-      setState(prevState =>
-        Object.keys(prevState)
-          .filter(key => !isKeyMatchRootId(key, rootId))
-          .reduce<State>((obj, key) => {
-            obj[key] = prevState[key];
-            return obj;
-          }, {})
-      ),
-    []
+      dispatch({
+        type: Types.DESTROY_BY_ROOT_ID,
+        payload: {
+          rootId,
+        },
+      }),
+    [dispatch]
   );
 
-  const makeShowModal = React.useCallback<MakeShowModalFn>(
-    rootId => (component, props, options) => {
-      const id = `${rootId}.${uid(8)}`;
+  const show = React.useCallback<ShowFn>(
+    (component, props, options) => {
+      let id = uid(8);
 
-      setState(prevState => ({
-        ...prevState,
-        [id]: {
+      if (options && options.rootId) {
+        id = `${options.rootId}.${id}`;
+      }
+
+      dispatch({
+        type: Types.SHOW,
+        payload: {
+          id,
           component,
-          props: {
-            ...props,
-            open: true,
-          },
+          props,
           options,
         },
-      }));
+      });
 
       return {
         id,
-        hide: () => hideModal(id),
-        destroy: () => destroyModal(id),
-        update: newProps => updateModal(id, newProps),
+        hide: () => hide(id),
+        destroy: () => destroy(id),
+        update: newProps => update(id, newProps),
       };
     },
-    [destroyModal, hideModal, updateModal]
+    [dispatch, hide, destroy, update]
   );
+
+  console.log(state);
 
   const renderState = () =>
     Object.keys(state).map(id => {
       const { component: Component, props, options } = state[id];
 
       const handleClose = (...args: any[]) => {
-        if (options?.destroyOnClose) {
-          destroyModal(id);
+        if (options && options.destroyOnClose) {
+          destroy(id);
         } else {
-          hideModal(id);
+          hide(id);
         }
 
         if (props && props.onClose) {
@@ -104,7 +103,7 @@ const ModalProvider: React.FC = ({ children }) => {
       };
 
       const handleExited = (...args: any[]) => {
-        destroyModal(id);
+        destroy(id);
 
         if (props && props.onExited) {
           props.onExited(...args);
@@ -124,18 +123,16 @@ const ModalProvider: React.FC = ({ children }) => {
   return (
     <ModalContext.Provider
       value={{
-        hideModal,
-        makeShowModal,
-        destroyModal,
-        destroyModalsByRootId,
-        updateModal,
         state,
+        updateModal: update,
+        hideModal: hide,
+        destroyModal: destroy,
+        showModal: show,
+        destroyModalsByRootId: destroyByRootId,
       }}
     >
       {children}
       {renderState()}
     </ModalContext.Provider>
   );
-};
-
-export default ModalProvider;
+}

@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 
-import { ModalProviderWrapper as wrapper } from './test';
+import { ModalProviderWrapper as wrapper } from './test-utils';
 import useModal from './useModal';
 
 describe('useModal', () => {

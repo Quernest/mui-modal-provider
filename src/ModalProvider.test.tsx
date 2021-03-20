@@ -1,7 +1,7 @@
 import React from 'react';
 import { act, renderHook } from '@testing-library/react-hooks';
 
-import { ModalProviderWrapper as wrapper, Modal } from './test';
+import { ModalProviderWrapper as wrapper, Modal } from './test-utils';
 import ModalContext from './ModalContext';
 import * as utils from './utils';
 
@@ -16,25 +16,28 @@ describe('ModalProvider', () => {
     const onCloseFn = jest.fn();
     const onExitedFn = jest.fn();
 
-    // use context inside ModalProvider wrapper
     const { result } = renderHook(() => React.useContext(ModalContext), {
       wrapper,
     });
 
-    // create
     act(() => {
-      const showModal = result.current.makeShowModal(rootId);
-
-      showModal(Modal, {
-        text: 'text',
-        onClose: onCloseFn,
-        onExited: onExitedFn,
-      });
+      result.current.showModal(
+        Modal,
+        {
+          text: 'text',
+          onClose: onCloseFn,
+          onExited: onExitedFn,
+        },
+        { rootId }
+      );
     });
 
     expect(result.current.state).toEqual({
       [id]: {
         component: Modal,
+        options: {
+          rootId,
+        },
         props: {
           open: true,
           text: 'text',
@@ -44,7 +47,6 @@ describe('ModalProvider', () => {
       },
     });
 
-    // update
     act(() => {
       result.current.updateModal(id, { text: 'updated text' });
     });
@@ -52,6 +54,9 @@ describe('ModalProvider', () => {
     expect(result.current.state).toEqual({
       [id]: {
         component: Modal,
+        options: {
+          rootId,
+        },
         props: {
           open: true,
           text: 'updated text',
