@@ -4,11 +4,11 @@ on: [push]
 
 jobs:
   build:
-    name: Build
+    name: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - uses: borales/actions-yarn@v1.22.5
+      - uses: borales/actions-yarn@v2.3.0
         with:
           cmd: install
       - run: yarn
