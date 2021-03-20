@@ -1,7 +1,13 @@
 import React from 'react';
 import ModalContext from './ModalContext';
 import reducer, { initialState, Types } from './reducer';
-import { ShowFn } from './types';
+import {
+  DestroyByRootIdFn,
+  DestroyFn,
+  HideFn,
+  ShowFn,
+  UpdateFn,
+} from './types';
 import { uid } from './utils';
 
 type Props = {
@@ -11,7 +17,7 @@ type Props = {
 export default function ModalProvider({ children }: Props) {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
-  const update = React.useCallback(
+  const update = React.useCallback<UpdateFn>(
     (id, { open, ...props }) =>
       dispatch({
         type: Types.UPDATE,
@@ -23,7 +29,7 @@ export default function ModalProvider({ children }: Props) {
     [dispatch]
   );
 
-  const hide = React.useCallback(
+  const hide = React.useCallback<HideFn>(
     id =>
       dispatch({
         type: Types.HIDE,
@@ -34,7 +40,7 @@ export default function ModalProvider({ children }: Props) {
     [dispatch]
   );
 
-  const destroy = React.useCallback(
+  const destroy = React.useCallback<DestroyFn>(
     id =>
       dispatch({
         type: Types.DESTROY,
@@ -45,7 +51,7 @@ export default function ModalProvider({ children }: Props) {
     [dispatch]
   );
 
-  const destroyByRootId = React.useCallback(
+  const destroyByRootId = React.useCallback<DestroyByRootIdFn>(
     rootId =>
       dispatch({
         type: Types.DESTROY_BY_ROOT_ID,

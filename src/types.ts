@@ -37,7 +37,7 @@ export type ActionMap<M extends { [index: string]: any }> = {
 
 export type UpdateFn = <P extends Props>(
   id: string,
-  props: ModalComponentProps<P>
+  props: Partial<ModalComponentProps<P>>
 ) => void;
 
 export type HideFn = (id: string) => void;
