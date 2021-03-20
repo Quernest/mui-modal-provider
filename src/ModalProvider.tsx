@@ -84,8 +84,6 @@ export default function ModalProvider({ children }: Props) {
     [dispatch, hide, destroy, update]
   );
 
-  console.log(state);
-
   const renderState = () =>
     Object.keys(state).map(id => {
       const { component: Component, props, options } = state[id];
@@ -115,7 +113,8 @@ export default function ModalProvider({ children }: Props) {
           {...props}
           key={id}
           onClose={handleClose}
-          {...(!options?.destroyOnClose && { onExited: handleExited })}
+          {...(options &&
+            !options.destroyOnClose && { onExited: handleExited })}
         />
       );
     });
