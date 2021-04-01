@@ -1,8 +1,8 @@
 # mui-modal-provider
 
+[![codecov](https://codecov.io/gh/Quernest/mui-modal-provider/branch/master/graph/badge.svg?token=AL2WK480NF)](https://codecov.io/gh/Quernest/mui-modal-provider)
 [![package version](https://img.shields.io/npm/v/mui-modal-provider.svg?style=flat-square)](https://www.npmjs.com/package/mui-modal-provider)
 [![package downloads](https://img.shields.io/npm/dm/mui-modal-provider.svg?style=flat-square)](https://www.npmjs.com/package/mui-modal-provider)
-[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 [![package license](https://img.shields.io/npm/l/mui-modal-provider.svg?style=flat-square)](https://www.npmjs.com/package/mui-modal-provider)
 
 MUI-modal-provider is a helper based on [Context API](https://en.reactjs.org/docs/context.html) and [React Hooks](https://en.reactjs.org/docs/hooks-intro.html) for simplified work with modals (dialogs) built on [Material-UI](https://www.material-ui.com) or custom solutions with suitable props.
