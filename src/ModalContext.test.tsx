@@ -4,7 +4,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import ModalContext, { initialContextState } from './ModalContext';
 import { ModalContextProviderWrapper as wrapper } from './test-utils';
 
-describe('ModalContext (initial state)', () => {
+describe('ModalContext', () => {
   const rootId = '123';
   const modalId = '321';
 

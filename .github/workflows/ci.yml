@@ -14,4 +14,8 @@ jobs:
       - run: yarn test
         env:
           CI: true
-      - run: yarn build
+      - uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage/coverage-final.json
+          name: codecov
