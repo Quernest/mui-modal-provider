@@ -10,7 +10,7 @@
     "start": "tsdx watch",
     "build": "tsdx build",
     "test": "tsdx test --passWithNoTests",
-    "test:coverage": "yarn test --coverage",
+    "test:coverage": "yarn test --verbose --coverage",
     "lint": "tsdx lint",
     "prepare": "tsdx build"
   },

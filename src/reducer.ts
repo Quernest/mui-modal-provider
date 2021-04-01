@@ -12,6 +12,7 @@ export enum Types {
   UPDATE = 'UPDATE',
   DESTROY = 'DESTROY',
   DESTROY_BY_ROOT_ID = 'DESTROY_BY_ROOT_ID',
+  UNKNOWN = 'UNKNOWN',
 }
 
 type Payload = {
@@ -31,6 +32,7 @@ type Payload = {
   [Types.DESTROY_BY_ROOT_ID]: {
     rootId: string;
   };
+  [Types.UNKNOWN]: undefined;
 };
 
 type Action = ActionMap<Payload>[keyof ActionMap<Payload>];
@@ -62,7 +64,7 @@ export default function reducer(state: State, action: Action) {
         [id]: {
           ...state[id],
           props: {
-            ...state[id]?.props,
+            ...state[id].props,
             open: false,
           },
         },
@@ -76,7 +78,7 @@ export default function reducer(state: State, action: Action) {
         [id]: {
           ...state[id],
           props: {
-            ...state[id]?.props,
+            ...state[id].props,
             ...props,
           },
         },
@@ -84,7 +86,8 @@ export default function reducer(state: State, action: Action) {
     }
     case Types.DESTROY: {
       const { id } = action.payload;
-      const { [id]: _, ...newState } = state;
+      const newState = { ...state };
+      delete newState[id];
       return newState;
     }
     case Types.DESTROY_BY_ROOT_ID: {
@@ -92,10 +95,13 @@ export default function reducer(state: State, action: Action) {
 
       return Object.keys(state)
         .filter(key => key.split('.')[0] !== rootId)
-        .reduce<State>((acc, key) => {
-          acc[key] = state[key];
-          return acc;
-        }, {});
+        .reduce<State>(
+          (acc, key) => ({
+            ...acc,
+            [key]: state[key],
+          }),
+          {}
+        );
     }
     default:
       throw new Error('Unexpected action');

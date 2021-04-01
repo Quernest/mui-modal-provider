@@ -1,69 +1,164 @@
 import React from 'react';
 import { act, renderHook } from '@testing-library/react-hooks';
 
-import { ModalProviderWrapper as wrapper, Modal } from './test-utils';
-import ModalContext from './ModalContext';
 import * as utils from './utils';
+import ModalContext from './ModalContext';
+import {
+  ModalProviderWrapper as wrapper,
+  Modal,
+  ModalProps,
+  OnCloseEvent,
+  OnExitedEvent,
+} from './test-utils';
+import { Options, ShowFnOutput, State } from './types';
 
 describe('ModalProvider', () => {
-  const rootId = '123';
-  const modalId = '321';
-  const id = `${rootId}.${modalId}`;
+  const rootId = '000';
+  const modalId = '111';
+  const delimiter = '.';
+  const id = `${rootId}${delimiter}${modalId}`;
 
-  jest.spyOn(utils, 'uid').mockReturnValueOnce(modalId);
+  let modal: ShowFnOutput<ModalProps>;
 
-  test('dialog', () => {
-    const onCloseFn = jest.fn();
-    const onExitedFn = jest.fn();
+  const modalProps: ModalProps = {
+    text: 'text',
+  };
 
+  const modalOptions: Options = {
+    rootId,
+  };
+
+  let uidSpy: jest.SpyInstance;
+
+  beforeEach(() => {
+    uidSpy = jest.spyOn(utils, 'uid').mockReturnValueOnce(modalId);
+  });
+
+  afterEach(() => {
+    uidSpy.mockRestore();
+  });
+
+  test('happy path scenario (with options)', () => {
+    const { result } = renderHook(() => React.useContext(ModalContext), {
+      wrapper,
+    });
+
+    const expectedState: State = {
+      [id]: {
+        component: Modal,
+        options: modalOptions,
+        props: {
+          open: true,
+          ...modalProps,
+        },
+      },
+    };
+
+    const updatedTextProp: string = 'updated text';
+
+    act(() => {
+      modal = result.current.showModal(Modal, modalProps, modalOptions);
+    });
+
+    expect(result.current.state).toEqual(expectedState);
+    expect(modal.id).toBe(id);
+
+    act(() => {
+      modal.update({ text: updatedTextProp });
+    });
+
+    expect(result.current.state[id].props).toEqual({
+      ...modalProps,
+      open: true,
+      text: updatedTextProp,
+    });
+
+    act(() => {
+      modal.hide();
+      modal.destroy();
+    });
+
+    expect(result.current.state[id]).toBe(undefined);
+  });
+
+  test('happy path scenario (without options)', () => {
     const { result } = renderHook(() => React.useContext(ModalContext), {
       wrapper,
     });
 
     act(() => {
-      result.current.showModal(
-        Modal,
-        {
-          text: 'text',
-          onClose: onCloseFn,
-          onExited: onExitedFn,
-        },
-        { rootId }
-      );
+      modal = result.current.showModal(Modal, modalProps);
     });
 
-    expect(result.current.state).toEqual({
-      [id]: {
+    const expectedState: State = {
+      [modalId]: {
         component: Modal,
-        options: {
-          rootId,
-        },
         props: {
           open: true,
-          text: 'text',
-          onClose: onCloseFn,
-          onExited: onExitedFn,
+          ...modalProps,
         },
       },
+    };
+
+    expect(result.current.state).toEqual(expectedState);
+  });
+
+  it('should automaticaly destroy on close', () => {
+    const { result } = renderHook(() => React.useContext(ModalContext), {
+      wrapper,
     });
 
     act(() => {
-      result.current.updateModal(id, { text: 'updated text' });
+      modal = result.current.showModal(Modal, modalProps, {
+        ...modalOptions,
+        destroyOnClose: true,
+      });
+
+      modal.hide();
     });
 
-    expect(result.current.state).toEqual({
-      [id]: {
-        component: Modal,
-        options: {
-          rootId,
-        },
-        props: {
-          open: true,
-          text: 'updated text',
-          onClose: onCloseFn,
-          onExited: onExitedFn,
-        },
-      },
+    expect(result.current.state[id]).toEqual(undefined);
+  });
+
+  it('should fire onClose prop event on hide', () => {
+    const { result } = renderHook(() => React.useContext(ModalContext), {
+      wrapper,
     });
+
+    const onClose = jest.fn();
+
+    act(() => {
+      modal = result.current.showModal(
+        Modal,
+        { ...modalProps, onClose },
+        modalOptions
+      );
+
+      modal.hide();
+    });
+
+    expect(onClose).toHaveBeenCalledWith(OnCloseEvent);
+    expect(result.current.state[id]).toEqual(undefined);
+  });
+
+  it('should fire onExited prop event on hide', () => {
+    const { result } = renderHook(() => React.useContext(ModalContext), {
+      wrapper,
+    });
+
+    const onExited = jest.fn();
+
+    act(() => {
+      modal = result.current.showModal(
+        Modal,
+        { ...modalProps, onExited },
+        modalOptions
+      );
+
+      modal.hide();
+    });
+
+    expect(onExited).toHaveBeenCalledWith(OnExitedEvent);
+    expect(result.current.state[id]).toEqual(undefined);
   });
 });
