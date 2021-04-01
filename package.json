@@ -10,7 +10,7 @@
     "start": "tsdx watch",
     "build": "tsdx build",
     "test": "tsdx test --passWithNoTests",
-    "test:coverage": "yarn test --verbose --coverage",
+    "test:coverage": "yarn test --coverage",
     "lint": "tsdx lint",
     "prepare": "tsdx build"
   },
@@ -26,14 +26,27 @@
     "trailingComma": "es5"
   },
   "jest": {
+    "collectCoverage": true,
+    "coverageDirectory": "./coverage",
     "collectCoverageFrom": [
       "src/**/*.{ts,tsx}",
       "!src/test-utils/*",
       "!src/index.ts"
     ],
     "coverageReporters": [
-      "html"
-    ]
+      "json",
+      "text"
+    ],
+    "testPathIgnorePatterns": ["/node_modules/"],
+    "verbose": true,
+    "coverageThreshold": {
+      "global": {
+        "branches": 95,
+        "functions": 95,
+        "lines": 95,
+        "statements": 95
+      }
+    }
   },
   "name": "mui-modal-provider",
   "author": "Quernest",
