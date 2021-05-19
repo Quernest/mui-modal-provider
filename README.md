@@ -58,4 +58,4 @@ ReactDOM.render(
 );
 ```
 
-### See more examples in [example](./example) folder
+### See more examples in [example](https://github.com/Quernest/mui-modal-provider/tree/master/example) folder
