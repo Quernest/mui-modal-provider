@@ -30,14 +30,12 @@ export default function useModal(options: Options = defaultOptions) {
     [disableAutoDestroy, destroy]
   );
 
-  const handleShowModal = useCallback(
-    (id: string): ShowFn => (component, props, options) =>
-      showModal(component, props, { rootId: id, ...options }),
-    [showModal]
-  );
-
   return {
-    showModal: handleShowModal(id.current),
+    showModal: useCallback<ShowFn>(
+      (component, props, options) =>
+        showModal(component, props, { rootId: id.current, ...options }),
+      [showModal]
+    ),
     ...otherContextProps,
   };
 }
