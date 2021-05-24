@@ -8,7 +8,7 @@
     "build": "parcel build ./src/index.html"
   },
   "dependencies": {
-    "@material-ui/core": "^4.11.0",
+    "@material-ui/core": "^4.11.4",
     "react-app-polyfill": "^1.0.0"
   },
   "alias": {
@@ -17,8 +17,8 @@
     "scheduler/tracing": "../node_modules/scheduler/tracing-profiling"
   },
   "devDependencies": {
-    "@types/react": "^16.9.48",
-    "@types/react-dom": "^16.9.8",
+    "@types/react": "^17.0.6",
+    "@types/react-dom": "^17.0.5",
     "parcel": "^2.0.0-beta.2",
     "typescript": "^3.4.5"
   }
