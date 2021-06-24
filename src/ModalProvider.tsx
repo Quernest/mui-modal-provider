@@ -8,6 +8,10 @@ import {
   ShowFn,
   UpdateFn,
 } from './types';
+import {
+  MISSED_MODAL_ID_ERROR_MESSAGE,
+  MISSED_MODAL_ROOT_ID_ERROR_MESSAGE,
+} from './constants';
 import { uid } from './utils';
 
 type Props = {
@@ -18,47 +22,71 @@ export default function ModalProvider({ children }: Props) {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   const update = React.useCallback<UpdateFn>(
-    (id, { open, ...props }) =>
+    (id, { open, ...props }) => {
+      if (!id) {
+        console.error(MISSED_MODAL_ID_ERROR_MESSAGE);
+        return;
+      }
+
       dispatch({
         type: Types.UPDATE,
         payload: {
           id,
           props,
         },
-      }),
+      });
+    },
     [dispatch]
   );
 
   const hide = React.useCallback<HideFn>(
-    id =>
+    id => {
+      if (!id) {
+        console.error(MISSED_MODAL_ID_ERROR_MESSAGE);
+        return;
+      }
+
       dispatch({
         type: Types.HIDE,
         payload: {
           id,
         },
-      }),
+      });
+    },
     [dispatch]
   );
 
   const destroy = React.useCallback<DestroyFn>(
-    id =>
+    id => {
+      if (!id) {
+        console.error(MISSED_MODAL_ID_ERROR_MESSAGE);
+        return;
+      }
+
       dispatch({
         type: Types.DESTROY,
         payload: {
           id,
         },
-      }),
+      });
+    },
     [dispatch]
   );
 
   const destroyByRootId = React.useCallback<DestroyByRootIdFn>(
-    rootId =>
+    rootId => {
+      if (!rootId) {
+        console.error(MISSED_MODAL_ROOT_ID_ERROR_MESSAGE);
+        return;
+      }
+
       dispatch({
         type: Types.DESTROY_BY_ROOT_ID,
         payload: {
           rootId,
         },
-      }),
+      });
+    },
     [dispatch]
   );
 

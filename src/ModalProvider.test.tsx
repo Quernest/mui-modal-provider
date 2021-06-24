@@ -11,6 +11,7 @@ import {
   OnExitedEvent,
 } from './test-utils';
 import { Options, ShowFnOutput, State } from './types';
+import { MISSED_MODAL_ID_ERROR_MESSAGE } from './constants';
 
 describe('ModalProvider', () => {
   const rootId = '000';
@@ -29,13 +30,16 @@ describe('ModalProvider', () => {
   };
 
   let uidSpy: jest.SpyInstance;
+  let consoleErrorSpy: jest.SpyInstance;
 
   beforeEach(() => {
     uidSpy = jest.spyOn(utils, 'uid').mockReturnValueOnce(modalId);
+    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   afterEach(() => {
     uidSpy.mockRestore();
+    consoleErrorSpy.mockRestore();
   });
 
   test('happy path scenario (with options)', () => {
@@ -79,6 +83,44 @@ describe('ModalProvider', () => {
     });
 
     expect(result.current.state[id]).toBe(undefined);
+  });
+
+  test('unhappy path (missed ID errors)', () => {
+    const { result } = renderHook(() => React.useContext(ModalContext), {
+      wrapper,
+    });
+
+    act(() => {
+      modal = result.current.showModal(Modal, modalProps);
+    });
+
+    act(() => {
+      result.current.hideModal('');
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        MISSED_MODAL_ID_ERROR_MESSAGE
+      );
+    });
+
+    act(() => {
+      result.current.destroyModal('');
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        MISSED_MODAL_ID_ERROR_MESSAGE
+      );
+    });
+
+    act(() => {
+      result.current.updateModal('', {});
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        MISSED_MODAL_ID_ERROR_MESSAGE
+      );
+    });
+
+    act(() => {
+      result.current.destroyModalsByRootId('');
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        MISSED_MODAL_ID_ERROR_MESSAGE
+      );
+    });
   });
 
   test('happy path scenario (without options)', () => {
