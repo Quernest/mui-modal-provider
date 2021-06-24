@@ -59,6 +59,10 @@ export default function reducer(state: State, action: Action) {
     case Types.HIDE: {
       const { id } = action.payload;
 
+      if (!state[id]) {
+        return state;
+      }
+
       return {
         ...state,
         [id]: {
@@ -72,6 +76,10 @@ export default function reducer(state: State, action: Action) {
     }
     case Types.UPDATE: {
       const { id, props } = action.payload;
+
+      if (!state[id]) {
+        return state;
+      }
 
       return {
         ...state,
