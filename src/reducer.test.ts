@@ -105,6 +105,22 @@ describe('reducer', () => {
     expect(state[id]).toBe(undefined);
   });
 
+  it('should handle default state in HIDE case', () => {
+    const state = reducer(expectedState, {
+      type: Types.HIDE,
+      payload: { id: 'some random id' },
+    });
+    expect(state).toEqual(expectedState);
+  });
+
+  it('should handle default state in UPDATE case', () => {
+    const state = reducer(expectedState, {
+      type: Types.UPDATE,
+      payload: { id: 'some random id', props: {} },
+    });
+    expect(state).toEqual(expectedState);
+  });
+
   it('should throw an error', () => {
     expect(() => reducer(expectedState, { type: Types.UNKNOWN })).toThrowError(
       'Unexpected action'
