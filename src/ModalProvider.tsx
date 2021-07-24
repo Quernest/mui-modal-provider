@@ -19,7 +19,10 @@ type Props = {
   muiV5Enabled?: boolean;
 };
 
-export default function ModalProvider({ children, muiV5Enabled = true }: Props) {
+export default function ModalProvider({
+  children,
+  muiV5Enabled = true,
+}: Props) {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   const update = React.useCallback<UpdateFn>(
