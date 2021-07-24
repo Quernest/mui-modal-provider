@@ -1,12 +1,20 @@
-import 'react-app-polyfill/ie11';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { StyledEngineProvider, createTheme } from '@material-ui/core/styles';
+
 import ModalProvider from '../../src';
 import App from './App';
+import { ThemeProvider } from '@material-ui/styles';
+
+const theme = createTheme();
 
 ReactDOM.render(
-  <ModalProvider>
-    <App />
-  </ModalProvider>,
+  <StyledEngineProvider injectFirst>
+    <ThemeProvider theme={theme}>
+      <ModalProvider>
+        <App />
+      </ModalProvider>
+    </ThemeProvider>
+  </StyledEngineProvider>,
   document.getElementById('root')
 );

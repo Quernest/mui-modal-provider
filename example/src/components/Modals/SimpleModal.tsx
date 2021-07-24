@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/styles';
 import Modal, { ModalProps } from '@material-ui/core/Modal';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     paper: {
       position: 'absolute',
