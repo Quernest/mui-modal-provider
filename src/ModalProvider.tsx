@@ -7,6 +7,7 @@ import {
   HideFn,
   ShowFn,
   UpdateFn,
+  RenderModalFn,
 } from './types';
 import {
   MISSED_MODAL_ID_ERROR_MESSAGE,
@@ -16,9 +17,26 @@ import { uid } from './utils';
 
 type Props = {
   children: React.ReactNode;
+  renderModal?: RenderModalFn;
 };
 
-export default function ModalProvider({ children }: Props) {
+const defaultRenderModal: RenderModalFn = params => {
+  const { Component, props, key, handleClose, handleExited } = params;
+
+  return (
+    <Component
+      {...props}
+      key={key}
+      onClose={handleClose}
+      {...(handleExited && { onExited: handleExited })}
+    />
+  );
+};
+
+export default function ModalProvider({
+  children,
+  renderModal = defaultRenderModal,
+}: Props) {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   const update = React.useCallback<UpdateFn>(
@@ -142,15 +160,14 @@ export default function ModalProvider({ children }: Props) {
         }
       };
 
-      return (
-        <Component
-          {...props}
-          key={id}
-          onClose={handleClose}
-          {...(options &&
-            !options.destroyOnClose && { onExited: handleExited })}
-        />
-      );
+      return renderModal({
+        Component,
+        key: id,
+        props,
+        handleClose,
+        handleExited:
+          options && !options.destroyOnClose ? handleExited : undefined,
+      });
     });
 
   return (

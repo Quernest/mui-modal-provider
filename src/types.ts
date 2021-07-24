@@ -1,4 +1,4 @@
-import { ComponentType } from 'react';
+import { ComponentType, ReactElement } from 'react';
 
 export type ModalComponent<P> = ComponentType<P>;
 
@@ -56,3 +56,13 @@ export type ShowFnOutput<P> = {
   destroy: () => void;
   update: (newProps: Partial<ModalComponentProps<P>>) => void;
 };
+
+export interface RenderModalFnParams {
+  Component: ComponentType<any>;
+  props: Props | undefined;
+  key: string;
+  handleClose: (...args: any[]) => void;
+  handleExited: ((...args: any[]) => void) | undefined;
+}
+
+export type RenderModalFn = (params: RenderModalFnParams) => ReactElement;
