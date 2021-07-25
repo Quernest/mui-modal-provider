@@ -4,12 +4,13 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import * as utils from './utils';
 import ModalContext from './ModalContext';
 import {
+  LegacyModalProviderWrapper as legacyWrapper,
   ModalProviderWrapper as wrapper,
-  Modal,
-  ModalProps,
   OnCloseEvent,
   OnExitedEvent,
 } from './test-utils';
+import Modal, { ModalProps } from './test-utils/Modal';
+import LegacyModal from './test-utils/LegacyModal';
 import { Options, ShowFnOutput, State } from './types';
 import { MISSED_MODAL_ID_ERROR_MESSAGE } from './constants';
 
@@ -183,7 +184,7 @@ describe('ModalProvider', () => {
     expect(result.current.state[id]).toEqual(undefined);
   });
 
-  it('should fire onExited prop event on hide', () => {
+  it('should fire TransitionProps.onExited prop event on hide', () => {
     const { result } = renderHook(() => React.useContext(ModalContext), {
       wrapper,
     });
@@ -193,7 +194,28 @@ describe('ModalProvider', () => {
     act(() => {
       modal = result.current.showModal(
         Modal,
-        { ...modalProps, onExited },
+        { ...modalProps, TransitionProps: { onExited } },
+        modalOptions
+      );
+
+      modal.hide();
+    });
+
+    expect(onExited).toHaveBeenCalledWith(OnExitedEvent);
+    expect(result.current.state[id]).toEqual(undefined);
+  });
+
+  it('should fire onExited prop event on hide', () => {
+    const { result } = renderHook(() => React.useContext(ModalContext), {
+      wrapper: legacyWrapper,
+    });
+
+    const onExited = jest.fn();
+
+    act(() => {
+      modal = result.current.showModal(
+        LegacyModal,
+        { onExited, text: '' },
         modalOptions
       );
 
