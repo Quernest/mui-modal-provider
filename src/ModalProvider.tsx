@@ -16,13 +16,10 @@ import { uid } from './utils';
 
 type Props = {
   children: React.ReactNode;
-  muiV5Enabled?: boolean;
+  beta?: boolean;
 };
 
-export default function ModalProvider({
-  children,
-  muiV5Enabled = true,
-}: Props) {
+export default function ModalProvider({ children, beta = false }: Props) {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   const update = React.useCallback<UpdateFn>(
@@ -152,7 +149,7 @@ export default function ModalProvider({
 
       let extraProps = {};
 
-      if (muiV5Enabled) {
+      if (beta) {
         extraProps = {
           TransitionProps: {
             ...props?.TransitionProps,

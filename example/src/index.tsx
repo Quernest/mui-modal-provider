@@ -11,7 +11,7 @@ const theme = createTheme();
 ReactDOM.render(
   <StyledEngineProvider injectFirst>
     <ThemeProvider theme={theme}>
-      <ModalProvider>
+      <ModalProvider beta>
         <App />
       </ModalProvider>
     </ThemeProvider>
