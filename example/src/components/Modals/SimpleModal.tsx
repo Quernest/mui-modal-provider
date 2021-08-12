@@ -1,34 +1,26 @@
 import * as React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
 import Modal, { ModalProps } from '@material-ui/core/Modal';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    paper: {
-      position: 'absolute',
-      width: 400,
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      backgroundColor: theme.palette.background.paper,
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-    },
-  })
-);
+const style = {
+  position: 'absolute',
+  width: 400,
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  boxShadow: 5,
+  p: 4,
+};
 
 type Props = Omit<ModalProps, 'children'> & {};
 
-const SimpleModal: React.FC<Props> = (props) => {
-  const classes = useStyles();
-
-  return (
-    <Modal {...props}>
-      <div className={classes.paper}>
-        <h2>Simple Modal</h2>
-      </div>
-    </Modal>
-  );
-};
+const SimpleModal: React.FC<Props> = props => (
+  <Modal {...props}>
+    <Box sx={style}>
+      <h2>Simple Modalsss</h2>
+    </Box>
+  </Modal>
+);
 
 export default SimpleModal;

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import withStyles from '@material-ui/core/styles/withStyles';
 import MuiButton from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/styles';
 import { useModal } from '../../src';
 
 import {
@@ -32,13 +32,15 @@ const App = () => {
       onCancel: () => {
         modal.hide();
       },
-      onExited: () => {
-        // =========================
-        // ⚠️ Be careful with setImmediate, setInterval and setTimeout
-        // ⚠️ don't forget to clean up id after closing dialog.
-        // ⚠️ use `onExited` or `onClose` callback for this.
-        // =========================
-        clearTimeout(timeoutId);
+      TransitionProps: {
+        onExited: () => {
+          // =========================
+          // ⚠️ Be careful with setImmediate, setInterval and setTimeout
+          // ⚠️ don't forget to clean up id after closing dialog.
+          // ⚠️ use `onExited` or `onClose` callback for this.
+          // =========================
+          clearTimeout(timeoutId);
+        },
       },
     });
 
@@ -77,7 +79,9 @@ const App = () => {
       <Button
         variant="contained"
         // @see https://github.com/Quernest/mui-modal-provider/issues/14
-        onClick={() => showModal(SimpleModal, undefined, { destroyOnClose: true })}
+        onClick={() =>
+          showModal(SimpleModal, undefined, { destroyOnClose: true })
+        }
         color="primary"
       >
         simple modal

@@ -11,7 +11,7 @@ type Props = DialogProps & {
   description: string;
   onCancel: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   onConfirm: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-}
+};
 
 const ConfirmationDialog: React.FC<Props> = ({
   title,

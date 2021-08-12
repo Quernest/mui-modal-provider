@@ -58,4 +58,6 @@ ReactDOM.render(
 );
 ```
 
+For [Material-UI v5](https://next.material-ui.com/) use `beta={true}` prop on the ModalProvider.
+
 ### See more examples in [example](https://github.com/Quernest/mui-modal-provider/tree/master/example) folder

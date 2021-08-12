@@ -16,9 +16,10 @@ import { uid } from './utils';
 
 type Props = {
   children: React.ReactNode;
+  beta?: boolean;
 };
 
-export default function ModalProvider({ children }: Props) {
+export default function ModalProvider({ children, beta = false }: Props) {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   const update = React.useCallback<UpdateFn>(
@@ -135,20 +136,38 @@ export default function ModalProvider({ children }: Props) {
       };
 
       const handleExited = (...args: any[]) => {
-        destroy(id);
-
-        if (props && props.onExited) {
+        if (props?.onExited) {
           props.onExited(...args);
         }
+
+        if (props?.TransitionProps?.onExited) {
+          props.TransitionProps.onExited(...args);
+        }
+
+        destroy(id);
       };
+
+      let extraProps = {};
+
+      if (beta) {
+        extraProps = {
+          TransitionProps: {
+            ...props?.TransitionProps,
+            onExited: handleExited,
+          },
+        };
+      } else {
+        extraProps = {
+          onExited: handleExited,
+        };
+      }
 
       return (
         <Component
           {...props}
           key={id}
           onClose={handleClose}
-          {...(options &&
-            !options.destroyOnClose && { onExited: handleExited })}
+          {...(options && !options.destroyOnClose && extraProps)}
         />
       );
     });
