@@ -23,6 +23,18 @@ type Props = Omit<ModalProps, 'children'> & {
 };
 
 export default function TransitionsModal({ open, ...props }: Props) {
+  /**
+   * 💡 if you are using material-ui before version 5,
+   * then you should use `onExited` (and other methods) directly from props.
+   * @see https://next.material-ui.com/guides/migration-v4/#dialog migration changes.
+   *
+   * @example
+   * ```jsx
+   * const { onExited, ...otherProps } = props;
+   *
+   * <Fade onExited={onExited} />
+   * ```
+   */
   const { TransitionProps = {}, ...otherProps } = props;
 
   return (
