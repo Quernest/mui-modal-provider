@@ -50,7 +50,6 @@ const App = () => {
 };
 
 // ✔️ wrap the app with modal provider
-// For v5 Material UI use beta={true} prop on the ModalProvider.
 ReactDOM.render(
   <ModalProvider>
     <App />
