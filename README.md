@@ -50,6 +50,7 @@ const App = () => {
 };
 
 // ✔️ wrap the app with modal provider
+// For v5 Material UI use beta={true} prop on the ModalProvider.
 ReactDOM.render(
   <ModalProvider>
     <App />
@@ -57,5 +58,7 @@ ReactDOM.render(
   document.getElementById('root')
 );
 ```
+
+For [Material-UI v5](https://next.material-ui.com/) use `beta={true}` prop on the ModalProvider.
 
 ### See more examples in [example](https://github.com/Quernest/mui-modal-provider/tree/master/example) folder
