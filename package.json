@@ -1,5 +1,5 @@
 {
-  "version": "1.5.0",
+  "version": "1.5.1",
   "license": "MIT",
   "name": "mui-modal-provider",
   "author": "Quernest",
@@ -29,7 +29,7 @@
     "typescript",
     "dialog"
   ],
-  "module": "dist/modal.esm.js",
+  "module": "dist/mui-modal-provider.esm.js",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
