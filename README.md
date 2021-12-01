@@ -24,7 +24,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 
 type Props = DialogProps & {
-  title: string;
+  title: string,
 };
 
 // ✔️ create the dialog you want to use
@@ -61,3 +61,15 @@ ReactDOM.render(
 For [Material-UI v5](https://next.material-ui.com/) use `beta={true}` prop on the ModalProvider.
 
 ### See more examples in [example](https://github.com/Quernest/mui-modal-provider/tree/master/example) folder
+
+## Developing & linking locally
+
+Because this module utilizes react hooks, it must be linked in a special way that is described here in this [react github issue comment](https://github.com/facebook/react/issues/14257#issuecomment-439967377)
+
+1. Update the react and react-dom versions in this module’s package.json devDependencies match the versions in whatever project you’re linking them in.
+2. `yarn install` in this module’s root directory
+3. Because this module uses hooks, we need to link the module’s react dependency into the project we will be using to test the linked module
+4. `cd node_modules/react` then `yarn link` then inside your linked project run `yarn link react`
+5. In the linked project’s root directory run `yarn install mui-modal-provider`
+6. Then in the module’s root directory run `yarn link`
+7. In the linked project’s root directory run `yarn link mui-modal-provider`
