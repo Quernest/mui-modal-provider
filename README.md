@@ -24,7 +24,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 
 type Props = DialogProps & {
-  title: string,
+  title: string;
 };
 
 // ✔️ create the dialog you want to use
