@@ -1,10 +1,10 @@
 import * as React from 'react';
-import Modal, { ModalProps } from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import { TransitionProps } from '@material-ui/core/transitions';
+import Modal, { ModalProps } from '@mui/material/Modal';
+import Backdrop from '@mui/material/Backdrop';
+import Fade from '@mui/material/Fade';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { TransitionProps } from '@mui/material/transitions';
 
 const style = {
   position: 'absolute',

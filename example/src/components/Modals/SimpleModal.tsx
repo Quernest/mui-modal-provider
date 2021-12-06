@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Box from '@material-ui/core/Box';
-import Modal, { ModalProps } from '@material-ui/core/Modal';
+import Box from '@mui/material/Box';
+import Modal, { ModalProps } from '@mui/material/Modal';
 
 const style = {
   position: 'absolute',
@@ -18,7 +18,7 @@ type Props = Omit<ModalProps, 'children'> & {};
 const SimpleModal: React.FC<Props> = props => (
   <Modal {...props}>
     <Box sx={style}>
-      <h2>Simple Modalsss</h2>
+      <h2>Simple Modal</h2>
     </Box>
   </Modal>
 );

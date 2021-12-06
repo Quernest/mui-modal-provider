@@ -7,11 +7,11 @@ export const OnCloseEvent = new Event('close');
 export const OnExitedEvent = new Event('exited');
 
 export const ModalProviderWrapper: React.FC = ({ children }) => (
-  <ModalProvider beta>{children}</ModalProvider>
+  <ModalProvider>{children}</ModalProvider>
 );
 
 export const LegacyModalProviderWrapper: React.FC = ({ children }) => (
-  <ModalProvider beta={false}>{children}</ModalProvider>
+  <ModalProvider legacy>{children}</ModalProvider>
 );
 
 export const ModalContextProviderWrapper: React.FC = ({ children }) => (

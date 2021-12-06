@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Dialog, { DialogProps } from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog, { DialogProps } from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const SimpleDialog: React.FC<DialogProps> = props => (
   <Dialog {...props}>
