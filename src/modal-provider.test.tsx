@@ -9,7 +9,7 @@ import {
   OnCloseEvent,
   OnExitedEvent,
 } from './test-utils';
-import Modal, { ModalProps } from './test-utils/Modal';
+import Modal, { ModalProps } from './test-utils/modal';
 import LegacyModal from './test-utils/legacy-modal';
 import { Options, ShowFnOutput, State } from './types';
 import { MISSED_MODAL_ID_ERROR_MESSAGE } from './constants';

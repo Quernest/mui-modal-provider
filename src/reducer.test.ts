@@ -1,6 +1,6 @@
 import { Props, State } from 'types';
 import reducer, { initialState, Types } from './reducer';
-import component from './test-utils/Modal';
+import component from './test-utils/modal';
 
 describe('reducer', () => {
   const modalId = '000';
