@@ -1,2 +1,2 @@
-export { default as SimpleModal } from './SimpleModal';
-export { default as TransitionModal } from './TransitionModal';
+export { default as SimpleModal } from './simple-modal';
+export { default as TransitionModal } from './transition-modal';

@@ -1,3 +1,3 @@
-export { default as SimpleDialog } from './SimpleDialog';
-export { default as NestedDialog } from './NestedDialog';
-export { default as ConfirmationDialog } from './ConfirmationDialog';
+export { default as SimpleDialog } from './simple-dialog';
+export { default as NestedDialog } from './nested-dialog';
+export { default as ConfirmationDialog } from './confirmation-dialog';

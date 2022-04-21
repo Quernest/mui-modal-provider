@@ -7,14 +7,14 @@ import {
 } from '@mui/material/styles';
 
 import ModalProvider from '../../src';
-import App from './App';
+import App from './app';
 
 const theme = createTheme();
 
 ReactDOM.render(
   <StyledEngineProvider injectFirst>
     <ThemeProvider theme={theme}>
-      <ModalProvider beta>
+      <ModalProvider>
         <App />
       </ModalProvider>
     </ThemeProvider>
