@@ -1,7 +1,7 @@
 import React from 'react';
 import { act, renderHook } from '@testing-library/react-hooks';
 
-import ModalContext, { initialContextState } from './ModalContext';
+import ModalContext, { initialContextState } from './modal-context';
 import { ModalContextProviderWrapper as wrapper } from './test-utils';
 
 describe('ModalContext', () => {

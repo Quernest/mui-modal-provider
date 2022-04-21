@@ -4,7 +4,7 @@ import { ModalProviderWrapper as wrapper } from './test-utils';
 import Modal from './test-utils/Modal';
 import * as utils from './utils';
 import { State } from './types';
-import useModal from './useModal';
+import useModal from './use-modal';
 
 describe('useModal', () => {
   const modalId = '000';
