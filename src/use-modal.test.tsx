@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 
 import { ModalProviderWrapper as wrapper } from './test-utils';
-import Modal from './test-utils/Modal';
+import Modal from './test-utils/modal';
 import * as utils from './utils';
 import { State } from './types';
 import useModal from './use-modal';
