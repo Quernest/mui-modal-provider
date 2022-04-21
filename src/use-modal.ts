@@ -1,7 +1,7 @@
 import { useContext, useCallback, useEffect, useRef } from 'react';
 import { ShowFn } from './types';
 
-import ModalContext from './ModalContext';
+import ModalContext from './modal-context';
 import { uid } from './utils';
 
 type Options = {

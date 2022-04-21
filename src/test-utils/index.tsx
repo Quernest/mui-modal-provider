@@ -1,7 +1,7 @@
 import React from 'react';
 
-import ModalContext, { initialContextState } from '../ModalContext';
-import ModalProvider from '../ModalProvider';
+import ModalContext, { initialContextState } from '../modal-context';
+import ModalProvider from '../modal-provider';
 
 export const OnCloseEvent = new Event('close');
 export const OnExitedEvent = new Event('exited');

@@ -1,3 +1,2 @@
-export * from './Dialogs';
-export * from './Modals';
-
+export * from './dialogs';
+export * from './modals';

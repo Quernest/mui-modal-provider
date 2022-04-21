@@ -2,15 +2,15 @@ import React from 'react';
 import { act, renderHook } from '@testing-library/react-hooks';
 
 import * as utils from './utils';
-import ModalContext from './ModalContext';
+import ModalContext from './modal-context';
 import {
   LegacyModalProviderWrapper as legacyWrapper,
   ModalProviderWrapper as wrapper,
   OnCloseEvent,
   OnExitedEvent,
 } from './test-utils';
-import Modal, { ModalProps } from './test-utils/Modal';
-import LegacyModal from './test-utils/LegacyModal';
+import Modal, { ModalProps } from './test-utils/modal';
+import LegacyModal from './test-utils/legacy-modal';
 import { Options, ShowFnOutput, State } from './types';
 import { MISSED_MODAL_ID_ERROR_MESSAGE } from './constants';
 
