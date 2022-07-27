@@ -4,25 +4,25 @@ export type ModalComponent<P> = ComponentType<P>;
 
 export type ModalComponentProps<P> = Omit<P, 'open'>;
 
-export type Props = {
+export interface Props {
   open?: Boolean;
   [key: string]: any;
-};
+}
 
-export type Options = {
+export interface Options {
   destroyOnClose?: boolean;
   rootId?: string;
-};
+}
 
-export type State = {
+export interface State {
   [id: string]: StateElement;
-};
+}
 
-export type StateElement = {
+export interface StateElement {
   component: ComponentType<any>;
   props?: Props;
   options?: Options;
-};
+}
 
 export type ActionMap<M extends { [index: string]: any }> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -50,9 +50,9 @@ export type ShowFn = <P extends Props>(
   options?: Options
 ) => ShowFnOutput<P>;
 
-export type ShowFnOutput<P> = {
+export interface ShowFnOutput<P> {
   id: string;
   hide: () => void;
   destroy: () => void;
   update: (newProps: Partial<ModalComponentProps<P>>) => void;
-};
+}

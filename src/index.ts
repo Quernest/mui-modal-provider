@@ -1,2 +1,3 @@
-export { default } from './modal-provider';
-export { default as useModal } from './use-modal';
+export { default, ModalProviderProps } from './modal-provider';
+export { default as useModal, UseModalOptions } from './use-modal';
+export * from './types';

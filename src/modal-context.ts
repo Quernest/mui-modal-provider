@@ -9,14 +9,14 @@ import {
   UpdateFn,
 } from './types';
 
-export type ModalContextState = {
+export interface ModalContextState {
   state: State;
   updateModal: UpdateFn;
   hideModal: HideFn;
   destroyModal: DestroyFn;
   destroyModalsByRootId: DestroyByRootIdFn;
   showModal: ShowFn;
-};
+}
 
 export const initialContextState = {
   state: initialState,
