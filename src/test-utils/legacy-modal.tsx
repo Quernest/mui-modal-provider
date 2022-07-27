@@ -1,12 +1,12 @@
 import React from 'react';
 import { OnExitedEvent, OnCloseEvent } from './index';
 
-export type LegacyModalProps = {
+export interface LegacyModalProps {
   open?: boolean;
   text: string;
   onExited?: (args: any) => void;
   onClose?: (args: any) => void;
-};
+}
 
 const LegacyModal: React.FC<LegacyModalProps> = ({
   open,

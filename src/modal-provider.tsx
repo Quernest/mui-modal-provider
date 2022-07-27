@@ -14,15 +14,18 @@ import {
 } from './constants';
 import { uid } from './utils';
 
-type Props = {
+export interface ModalProviderProps {
   children: React.ReactNode;
   /**
    * Enable it if you want to use mui < 5 version
    */
   legacy?: boolean;
-};
+}
 
-export default function ModalProvider({ children, legacy = false }: Props) {
+export default function ModalProvider({
+  children,
+  legacy = false,
+}: ModalProviderProps) {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   const update = React.useCallback<UpdateFn>(

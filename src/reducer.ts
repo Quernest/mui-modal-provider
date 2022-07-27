@@ -15,7 +15,7 @@ export enum Types {
   UNKNOWN = 'UNKNOWN',
 }
 
-type Payload = {
+interface Payload {
   [Types.SHOW]: StateElement & {
     id: string;
   };
@@ -33,7 +33,7 @@ type Payload = {
     rootId: string;
   };
   [Types.UNKNOWN]: undefined;
-};
+}
 
 type Action = ActionMap<Payload>[keyof ActionMap<Payload>];
 
