@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode, FC } from 'react';
 
 import ModalContext, { initialContextState } from '../modal-context';
 import ModalProvider from '../modal-provider';
@@ -6,15 +6,19 @@ import ModalProvider from '../modal-provider';
 export const OnCloseEvent = new Event('close');
 export const OnExitedEvent = new Event('exited');
 
-export const ModalProviderWrapper: React.FC = ({ children }) => (
+interface Props {
+  children: ReactNode;
+}
+
+export const ModalProviderWrapper: FC<Props> = ({ children }) => (
   <ModalProvider>{children}</ModalProvider>
 );
 
-export const LegacyModalProviderWrapper: React.FC = ({ children }) => (
+export const LegacyModalProviderWrapper: FC<Props> = ({ children }) => (
   <ModalProvider legacy>{children}</ModalProvider>
 );
 
-export const ModalContextProviderWrapper: React.FC = ({ children }) => (
+export const ModalContextProviderWrapper: FC<Props> = ({ children }) => (
   <ModalContext.Provider value={initialContextState}>
     {children}
   </ModalContext.Provider>

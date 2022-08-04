@@ -17,24 +17,24 @@ npm install mui-modal-provider # or yarn add mui-modal-provider
 
 ```jsx
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import ModalProvider, { useModal } from 'mui-modal-provider';
 import Dialog, { DialogProps } from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 
-type Props = DialogProps & {
+interface SimpleDialogProps extends DialogProps {
   title: string,
 };
 
-// ✔️ create the dialog you want to use
-const SimpleDialog: React.FC<Props> = ({ title, ...props }) => (
+// Create the dialog you want to use
+const SimpleDialog: React.FC<SimpleDialogProps> = ({ title, ...props }) => (
   <Dialog {...props}>
     <DialogTitle>{title}</DialogTitle>
   </Dialog>
 );
 
-// ✔️ use modal hook and show the dialog
+// Use modal hook and show the dialog
 const App = () => {
   const { showModal } = useModal();
 
@@ -49,12 +49,14 @@ const App = () => {
   );
 };
 
-// ✔️ wrap the app with modal provider
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container);
+
+// Wrap the app with modal provider
+root.render(
   <ModalProvider>
     <App />
-  </ModalProvider>,
-  document.getElementById('root')
+  </ModalProvider>
 );
 ```
 

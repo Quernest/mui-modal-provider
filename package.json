@@ -1,5 +1,5 @@
 {
-  "version": "2.0.1",
+  "version": "2.1.0",
   "license": "MIT",
   "name": "mui-modal-provider",
   "author": "Quernest",
@@ -86,9 +86,9 @@
     }
   },
   "peerDependencies": {
-    "@types/react": "^16.8.6 || ^17.0.0",
-    "react": "^16.8.0 || ^17.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0"
+    "@types/react": "^16.8.6 || ^17.0.0 || ^18.0.0",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "peerDependenciesMeta": {
     "@types/react": {
@@ -96,18 +96,19 @@
     }
   },
   "devDependencies": {
-    "@testing-library/react": "^13.1.1",
-    "@testing-library/react-hooks": "^8.0.0",
-    "@types/jest": "^26.0.23",
-    "@types/react": "^17.0.6",
-    "@types/react-dom": "^17.0.6",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/react-hooks": "^8.0.1",
+    "@types/jest": "^28.1.6",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
     "husky": "^4.2.5",
     "install-peers-cli": "^2.2.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "semantic-release": "^18.0.1",
     "tsdx": "^0.14.1",
     "tslib": "^2.3.1",
-    "typescript": "^4.6.3"
+    "typescript": "^4.7.4"
   }
 }

@@ -6,14 +6,14 @@ import DialogContentText from '@mui/material/DialogContentText';
 import Dialog, { DialogProps } from '@mui/material/Dialog';
 import Button from '@mui/material/Button';
 
-type Props = DialogProps & {
+export interface ConfirmationDialogProps extends DialogProps {
   title: string;
   description: string;
   onCancel: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   onConfirm: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
-const ConfirmationDialog: React.FC<Props> = ({
+const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
   title,
   description,
   onCancel,
