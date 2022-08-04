@@ -5,8 +5,9 @@ import Fade from '@mui/material/Fade';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { TransitionProps } from '@mui/material/transitions';
+import { SxProps, Theme } from '@mui/material/styles';
 
-const style = {
+const style: SxProps<Theme> = {
   position: 'absolute',
   top: '50%',
   left: '50%',
@@ -18,11 +19,11 @@ const style = {
   p: 4,
 };
 
-type Props = Omit<ModalProps, 'children'> & {
+export interface TransitionsModalProps extends Omit<ModalProps, 'children'> {
   TransitionProps: TransitionProps;
 };
 
-export default function TransitionsModal({ open, ...props }: Props) {
+export default function TransitionsModal({ open, ...props }: TransitionsModalProps) {
   /**
    * 💡 if you are using material-ui before version 5,
    * then you should use `onExited` (and other methods) directly from props.

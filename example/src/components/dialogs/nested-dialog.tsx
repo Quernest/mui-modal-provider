@@ -6,12 +6,11 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { useModal } from '../../../../src';
 
-type Props = DialogProps & {
-  // nesting level
+export interface NestedDialogProps extends DialogProps {
   deep: number;
 };
 
-const NestedDialog: React.FC<Props> = ({ deep = 0, ...props }) => {
+const NestedDialog: React.FC<NestedDialogProps> = ({ deep = 0, ...props }) => {
   const { showModal } = useModal();
 
   const handleClick = () => {

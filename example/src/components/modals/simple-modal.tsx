@@ -1,8 +1,9 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal, { ModalProps } from '@mui/material/Modal';
+import { SxProps, Theme } from '@mui/material/styles';
 
-const style = {
+const style: SxProps<Theme> = {
   position: 'absolute',
   width: 400,
   top: '50%',
@@ -13,9 +14,9 @@ const style = {
   p: 4,
 };
 
-type Props = Omit<ModalProps, 'children'> & {};
+export interface SimpleModalProps extends Omit<ModalProps, 'children'> {};
 
-const SimpleModal: React.FC<Props> = props => (
+const SimpleModal: React.FC<SimpleModalProps> = props => (
   <Modal {...props}>
     <Box sx={style}>
       <h2>Simple Modal</h2>
