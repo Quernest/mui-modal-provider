@@ -60,13 +60,25 @@ root.render(
 );
 ```
 
-## Compatibility
+## API
 
-For [Material-UI v4](https://v4.mui.com/) use `legacy` prop on the ModalProvider.
+### Modal Provider
+| Property | Type | Default | Description | Required |
+|--|--|--|--|--|
+| `legacy` | `Boolean` | `false` | Set to `true` if you want to use mui < 5 version. | false |
+| `suspense` | `Boolean` | `true` | Wraps your modal with the [Suspense](https://beta.reactjs.org/reference/react/Suspense) | false |
+| `fallback` | `Nullable<ReactNode>` | `null` | Custom component for the Suspense [fallback](https://beta.reactjs.org/reference/react/Suspense#displaying-a-fallback-while-content-is-loading) prop | false |
+| `children` | `ReactNode` | `undefined` | - | true
+
+*The rest will be added later... Look at examples* 😊
 
 ## Examples
 
 See more examples in [example](https://github.com/Quernest/mui-modal-provider/tree/master/example) folder
+
+## Compatibility
+
+For [Material-UI v4](https://v4.mui.com/) use `legacy` prop on the ModalProvider.
 
 ## Developing & linking locally
 

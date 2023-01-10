@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode, Fragment, Suspense } from 'react';
 import ModalContext from './modal-context';
 import reducer, { initialState, Types } from './reducer';
 import {
@@ -15,16 +15,28 @@ import {
 import { uid } from './utils';
 
 export interface ModalProviderProps {
-  children: React.ReactNode;
+  children: ReactNode;
   /**
    * Enable it if you want to use mui < 5 version
    */
   legacy?: boolean;
+  /**
+   * Enable it if you want to wrap the modals with the Suspense feature.
+   * @see https://beta.reactjs.org/reference/react/Suspense
+   */
+  suspense?: boolean;
+  /**
+   * Custom fallback for the Suspense fallback
+   * @see https://beta.reactjs.org/reference/react/Suspense#displaying-a-fallback-while-content-is-loading
+   */
+  fallback?: ReactNode | null;
 }
 
 export default function ModalProvider({
   children,
   legacy = false,
+  suspense = true,
+  fallback = null,
 }: ModalProviderProps) {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
@@ -178,6 +190,8 @@ export default function ModalProvider({
       );
     });
 
+  const SuspenseWrapper = suspense ? Suspense : Fragment;
+
   return (
     <ModalContext.Provider
       value={{
@@ -190,7 +204,7 @@ export default function ModalProvider({
       }}
     >
       {children}
-      {renderState()}
+      <SuspenseWrapper fallback={fallback}>{renderState()}</SuspenseWrapper>
     </ModalContext.Provider>
   );
 }
