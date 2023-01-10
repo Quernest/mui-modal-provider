@@ -6,6 +6,7 @@ import ModalContext from './modal-context';
 import {
   LegacyModalProviderWrapper as legacyWrapper,
   ModalProviderWrapper as wrapper,
+  NoSuspenseModalProviderWrapper as noSuspenseWrapper,
   OnCloseEvent,
   OnExitedEvent,
 } from './test-utils';
@@ -186,7 +187,7 @@ describe('ModalProvider', () => {
 
   it('should fire TransitionProps.onExited prop event on hide', () => {
     const { result } = renderHook(() => React.useContext(ModalContext), {
-      wrapper,
+      wrapper: noSuspenseWrapper,
     });
 
     const onExited = jest.fn();

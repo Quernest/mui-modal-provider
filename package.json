@@ -1,5 +1,5 @@
 {
-  "version": "2.1.0",
+  "version": "2.2.0",
   "license": "MIT",
   "name": "mui-modal-provider",
   "author": "Quernest",
@@ -70,7 +70,8 @@
     ],
     "coverageReporters": [
       "json",
-      "text"
+      "text",
+      "html"
     ],
     "testPathIgnorePatterns": [
       "/node_modules/"

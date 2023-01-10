@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 
 import { useModal } from '../../src';
-
 import {
   SimpleDialog,
   NestedDialog,
@@ -11,6 +10,10 @@ import {
   SimpleModal,
   TransitionModal,
 } from './components';
+
+const SimpleLazyLoadedDialog = React.lazy(() =>
+  import('./components/dialogs/simple-dialog-for-lazy-loading')
+);
 
 const App = () => {
   const { showModal } = useModal();
@@ -57,6 +60,15 @@ const App = () => {
           color="primary"
         >
           simple dialog
+        </Button>
+      </Grid>
+      <Grid item>
+        <Button
+          variant="contained"
+          onClick={() => showModal(SimpleLazyLoadedDialog)}
+          color="primary"
+        >
+          simple lazy loaded dialog
         </Button>
       </Grid>
       <Grid item>

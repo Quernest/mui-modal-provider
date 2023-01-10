@@ -18,6 +18,10 @@ export const LegacyModalProviderWrapper: FC<Props> = ({ children }) => (
   <ModalProvider legacy>{children}</ModalProvider>
 );
 
+export const NoSuspenseModalProviderWrapper: FC<Props> = ({ children }) => (
+  <ModalProvider suspense={false}>{children}</ModalProvider>
+);
+
 export const ModalContextProviderWrapper: FC<Props> = ({ children }) => (
   <ModalContext.Provider value={initialContextState}>
     {children}
