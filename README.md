@@ -18,14 +18,14 @@ npm install mui-modal-provider # or yarn add mui-modal-provider
 ```jsx
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import ModalProvider, { useModal } from 'mui-modal-provider';
+import { ModalProvider, useModal } from 'mui-modal-provider';
 import Dialog, { DialogProps } from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 
 interface SimpleDialogProps extends DialogProps {
-  title: string,
-};
+  title: string;
+}
 
 // Create the dialog you want to use
 const SimpleDialog: React.FC<SimpleDialogProps> = ({ title, ...props }) => (
@@ -63,14 +63,15 @@ root.render(
 ## API
 
 ### Modal Provider
-| Property | Type | Default | Description | Required |
-|--|--|--|--|--|
-| `legacy` | `Boolean` | `false` | Set to `true` if you want to use mui < 5 version. | false |
-| `suspense` | `Boolean` | `true` | Wraps your modal with the [Suspense](https://beta.reactjs.org/reference/react/Suspense) | false |
-| `fallback` | `Nullable<ReactNode>` | `null` | Custom component for the Suspense [fallback](https://beta.reactjs.org/reference/react/Suspense#displaying-a-fallback-while-content-is-loading) prop | false |
-| `children` | `ReactNode` | `undefined` | - | true
 
-*The rest will be added later... Look at examples* 😊
+| Property   | Type                  | Default     | Description                                                                                                                                         | Required |
+| ---------- | --------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `legacy`   | `Boolean`             | `false`     | Set to `true` if you want to use mui < 5 version.                                                                                                   | false    |
+| `suspense` | `Boolean`             | `true`      | Wraps your modal with the [Suspense](https://beta.reactjs.org/reference/react/Suspense)                                                             | false    |
+| `fallback` | `Nullable<ReactNode>` | `null`      | Custom component for the Suspense [fallback](https://beta.reactjs.org/reference/react/Suspense#displaying-a-fallback-while-content-is-loading) prop | false    |
+| `children` | `ReactNode`           | `undefined` | -                                                                                                                                                   | true     |
+
+_The rest will be added later... Look at examples_ 😊
 
 ## Examples
 
