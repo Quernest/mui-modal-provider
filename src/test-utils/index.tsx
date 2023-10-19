@@ -1,6 +1,4 @@
 import React, { ReactNode, FC } from 'react';
-
-import ModalContext, { initialContextState } from '../modal-context';
 import ModalProvider from '../modal-provider';
 
 export const OnCloseEvent = new Event('close');
@@ -20,10 +18,4 @@ export const LegacyModalProviderWrapper: FC<Props> = ({ children }) => (
 
 export const NoSuspenseModalProviderWrapper: FC<Props> = ({ children }) => (
   <ModalProvider suspense={false}>{children}</ModalProvider>
-);
-
-export const ModalContextProviderWrapper: FC<Props> = ({ children }) => (
-  <ModalContext.Provider value={initialContextState}>
-    {children}
-  </ModalContext.Provider>
 );

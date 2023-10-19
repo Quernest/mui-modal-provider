@@ -1,5 +1,4 @@
 import { createContext } from 'react';
-import { initialState } from './reducer';
 import {
   State,
   HideFn,
@@ -18,20 +17,6 @@ export interface ModalContextState {
   showModal: ShowFn;
 }
 
-export const initialContextState = {
-  state: initialState,
-  hideModal: () => {},
-  showModal: () => ({
-    id: 'id',
-    hide: () => {},
-    destroy: () => {},
-    update: () => {},
-  }),
-  destroyModal: () => {},
-  updateModal: () => {},
-  destroyModalsByRootId: () => {},
-};
-
-const ModalContext = createContext<ModalContextState>(initialContextState);
+const ModalContext = createContext<ModalContextState | undefined>(undefined);
 
 export default ModalContext;
