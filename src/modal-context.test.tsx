@@ -1,19 +1,25 @@
 import React from 'react';
 import { act, renderHook } from '@testing-library/react-hooks';
-
-import ModalContext, { initialContextState } from './modal-context';
-import { ModalContextProviderWrapper as wrapper } from './test-utils';
+import { ModalProviderWrapper as wrapper } from './test-utils';
+import useModalContext from './use-modal-context';
 
 describe('ModalContext', () => {
   const rootId = '123';
   const modalId = '321';
 
   test('should be initialized with correct state', () => {
-    const { result } = renderHook(() => React.useContext(ModalContext), {
+    const { result } = renderHook(() => useModalContext(), {
       wrapper,
     });
 
-    expect(result.current).toMatchObject(initialContextState);
+    expect(result.current).toMatchObject({
+      destroyModal: expect.any(Function),
+      destroyModalsByRootId: expect.any(Function),
+      hideModal: expect.any(Function),
+      showModal: expect.any(Function),
+      state: {},
+      updateModal: expect.any(Function),
+    });
 
     act(() => {
       const modal = result.current.showModal(() => <div>test</div>);

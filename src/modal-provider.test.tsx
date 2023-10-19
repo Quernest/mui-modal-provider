@@ -1,8 +1,6 @@
-import React from 'react';
 import { act, renderHook } from '@testing-library/react-hooks';
-
 import * as utils from './utils';
-import ModalContext from './modal-context';
+import useModalContext from './use-modal-context';
 import {
   LegacyModalProviderWrapper as legacyWrapper,
   ModalProviderWrapper as wrapper,
@@ -45,7 +43,7 @@ describe('ModalProvider', () => {
   });
 
   test('happy path scenario (with options)', () => {
-    const { result } = renderHook(() => React.useContext(ModalContext), {
+    const { result } = renderHook(() => useModalContext(), {
       wrapper,
     });
 
@@ -88,7 +86,7 @@ describe('ModalProvider', () => {
   });
 
   test('unhappy path (missed ID errors)', () => {
-    const { result } = renderHook(() => React.useContext(ModalContext), {
+    const { result } = renderHook(() => useModalContext(), {
       wrapper,
     });
 
@@ -126,7 +124,7 @@ describe('ModalProvider', () => {
   });
 
   test('happy path scenario (without options)', () => {
-    const { result } = renderHook(() => React.useContext(ModalContext), {
+    const { result } = renderHook(() => useModalContext(), {
       wrapper,
     });
 
@@ -148,7 +146,7 @@ describe('ModalProvider', () => {
   });
 
   it('should automaticaly destroy on close', () => {
-    const { result } = renderHook(() => React.useContext(ModalContext), {
+    const { result } = renderHook(() => useModalContext(), {
       wrapper,
     });
 
@@ -165,7 +163,7 @@ describe('ModalProvider', () => {
   });
 
   it('should fire onClose prop event on hide', () => {
-    const { result } = renderHook(() => React.useContext(ModalContext), {
+    const { result } = renderHook(() => useModalContext(), {
       wrapper,
     });
 
@@ -186,7 +184,7 @@ describe('ModalProvider', () => {
   });
 
   it('should fire TransitionProps.onExited prop event on hide', () => {
-    const { result } = renderHook(() => React.useContext(ModalContext), {
+    const { result } = renderHook(() => useModalContext(), {
       wrapper: noSuspenseWrapper,
     });
 
@@ -207,7 +205,7 @@ describe('ModalProvider', () => {
   });
 
   it('should fire onExited prop event on hide', () => {
-    const { result } = renderHook(() => React.useContext(ModalContext), {
+    const { result } = renderHook(() => useModalContext(), {
       wrapper: legacyWrapper,
     });
 
