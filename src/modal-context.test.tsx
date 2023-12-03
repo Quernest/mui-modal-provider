@@ -1,18 +1,63 @@
 import React from 'react';
-import { act, renderHook } from '@testing-library/react-hooks';
-import { ModalProviderWrapper as wrapper } from './test-utils';
-import useModalContext from './use-modal-context';
+import {
+  act,
+  renderHook,
+  WrapperComponent,
+} from '@testing-library/react-hooks';
+import { ModalProviderWrapper } from './test-utils';
+import useModal from './use-modal';
+import { ModalContextState } from './modal-context';
 
 describe('ModalContext', () => {
   const rootId = '123';
   const modalId = '321';
 
-  test('should be initialized with correct state', () => {
-    const { result } = renderHook(() => useModalContext(), {
-      wrapper,
+  const testHook = (wrapper?: WrapperComponent<any>) => {
+    const { result } = renderHook(() => useModal(), { wrapper });
+    const ctx = result.current as ModalContextState;
+
+    const performModalActions = (modal: any) => {
+      act(() => {
+        modal.update({});
+        modal.hide();
+        modal.destroy();
+      });
+    };
+
+    return { ctx, performModalActions };
+  };
+
+  const runTests = (
+    context: ModalContextState,
+    wrapper?: WrapperComponent<any>
+  ) => {
+    const { performModalActions } = testHook(wrapper);
+
+    act(() => {
+      const modal = context.showModal(() => <div>test</div>);
+      performModalActions(modal);
     });
 
-    expect(result.current).toMatchObject({
+    act(() => {
+      context.updateModal(modalId, {});
+    });
+
+    act(() => {
+      context.hideModal(modalId);
+    });
+
+    act(() => {
+      context.destroyModal(modalId);
+    });
+
+    act(() => {
+      context.destroyModalsByRootId(rootId);
+    });
+  };
+
+  test('should be initialized with correct state', () => {
+    const { ctx } = testHook(ModalProviderWrapper);
+    expect(ctx).toMatchObject({
       destroyModal: expect.any(Function),
       destroyModalsByRootId: expect.any(Function),
       hideModal: expect.any(Function),
@@ -21,27 +66,20 @@ describe('ModalContext', () => {
       updateModal: expect.any(Function),
     });
 
-    act(() => {
-      const modal = result.current.showModal(() => <div>test</div>);
-      modal.update({});
-      modal.hide();
-      modal.destroy();
+    runTests(ctx, ModalProviderWrapper);
+  });
+
+  test('should be initialized without context provider and return fallback', () => {
+    const { ctx } = testHook(undefined);
+    expect(ctx).toMatchObject({
+      destroyModal: expect.any(Function),
+      destroyModalsByRootId: expect.any(Function),
+      hideModal: expect.any(Function),
+      showModal: expect.any(Function),
+      state: {},
+      updateModal: expect.any(Function),
     });
 
-    act(() => {
-      result.current.updateModal(modalId, {});
-    });
-
-    act(() => {
-      result.current.hideModal(modalId);
-    });
-
-    act(() => {
-      result.current.destroyModal(modalId);
-    });
-
-    act(() => {
-      result.current.destroyModalsByRootId(rootId);
-    });
+    runTests(ctx);
   });
 });
