@@ -17,6 +17,20 @@ export interface ModalContextState {
   showModal: ShowFn;
 }
 
+export const modalContextFallback: ModalContextState = {
+  state: {},
+  updateModal: () => undefined,
+  hideModal: () => undefined,
+  destroyModal: () => undefined,
+  destroyModalsByRootId: () => undefined,
+  showModal: () => ({
+    id: 'id',
+    hide: () => undefined,
+    destroy: () => undefined,
+    update: () => undefined,
+  }),
+};
+
 const ModalContext = createContext<ModalContextState | undefined>(undefined);
 
 export default ModalContext;

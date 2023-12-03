@@ -15,18 +15,18 @@ export default function useModal(options: UseModalOptions = defaultOptions) {
   const { disableAutoDestroy } = { ...defaultOptions, ...options };
   const {
     showModal,
-    destroyModalsByRootId: destroy,
-    ...otherContextProps
+    destroyModal,
+    ...otherModalContextProps
   } = useModalContext();
   const id = useRef<string>(uid(6));
 
   useEffect(
     () => () => {
-      if (!disableAutoDestroy) {
-        destroy(id.current);
+      if (!disableAutoDestroy && destroyModal) {
+        destroyModal(id.current);
       }
     },
-    [disableAutoDestroy, destroy]
+    [disableAutoDestroy, destroyModal]
   );
 
   return {
@@ -35,6 +35,7 @@ export default function useModal(options: UseModalOptions = defaultOptions) {
         showModal(component, props, { rootId: id.current, ...options }),
       [showModal]
     ),
-    ...otherContextProps,
+    destroyModal,
+    ...otherModalContextProps,
   };
 }

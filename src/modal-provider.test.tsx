@@ -1,6 +1,5 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 import * as utils from './utils';
-import useModalContext from './use-modal-context';
 import {
   LegacyModalProviderWrapper as legacyWrapper,
   ModalProviderWrapper as wrapper,
@@ -12,6 +11,7 @@ import Modal, { ModalProps } from './test-utils/modal';
 import LegacyModal from './test-utils/legacy-modal';
 import { Options, ShowFnOutput, State } from './types';
 import { MISSED_MODAL_ID_ERROR_MESSAGE } from './constants';
+import useModal from './use-modal';
 
 describe('ModalProvider', () => {
   const rootId = '000';
@@ -33,7 +33,7 @@ describe('ModalProvider', () => {
   let consoleErrorSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    uidSpy = jest.spyOn(utils, 'uid').mockReturnValueOnce(modalId);
+    uidSpy = jest.spyOn(utils, 'uid').mockReturnValue(modalId);
     consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
@@ -43,7 +43,8 @@ describe('ModalProvider', () => {
   });
 
   test('happy path scenario (with options)', () => {
-    const { result } = renderHook(() => useModalContext(), {
+    uidSpy = jest.spyOn(utils, 'uid').mockReturnValueOnce(rootId);
+    const { result } = renderHook(() => useModal(), {
       wrapper,
     });
 
@@ -86,7 +87,7 @@ describe('ModalProvider', () => {
   });
 
   test('unhappy path (missed ID errors)', () => {
-    const { result } = renderHook(() => useModalContext(), {
+    const { result } = renderHook(() => useModal(), {
       wrapper,
     });
 
@@ -123,8 +124,9 @@ describe('ModalProvider', () => {
     });
   });
 
-  test('happy path scenario (without options)', () => {
-    const { result } = renderHook(() => useModalContext(), {
+  test('happy path scenario (without options provided)', () => {
+    uidSpy = jest.spyOn(utils, 'uid').mockReturnValueOnce(rootId);
+    const { result } = renderHook(() => useModal(), {
       wrapper,
     });
 
@@ -133,8 +135,11 @@ describe('ModalProvider', () => {
     });
 
     const expectedState: State = {
-      [modalId]: {
+      [id]: {
         component: Modal,
+        options: {
+          rootId: rootId,
+        },
         props: {
           open: true,
           ...modalProps,
@@ -146,7 +151,7 @@ describe('ModalProvider', () => {
   });
 
   it('should automaticaly destroy on close', () => {
-    const { result } = renderHook(() => useModalContext(), {
+    const { result } = renderHook(() => useModal(), {
       wrapper,
     });
 
@@ -163,7 +168,7 @@ describe('ModalProvider', () => {
   });
 
   it('should fire onClose prop event on hide', () => {
-    const { result } = renderHook(() => useModalContext(), {
+    const { result } = renderHook(() => useModal(), {
       wrapper,
     });
 
@@ -184,7 +189,7 @@ describe('ModalProvider', () => {
   });
 
   it('should fire TransitionProps.onExited prop event on hide', () => {
-    const { result } = renderHook(() => useModalContext(), {
+    const { result } = renderHook(() => useModal(), {
       wrapper: noSuspenseWrapper,
     });
 
@@ -205,7 +210,7 @@ describe('ModalProvider', () => {
   });
 
   it('should fire onExited prop event on hide', () => {
-    const { result } = renderHook(() => useModalContext(), {
+    const { result } = renderHook(() => useModal(), {
       wrapper: legacyWrapper,
     });
 

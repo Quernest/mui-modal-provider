@@ -56,3 +56,7 @@ export interface ShowFnOutput<P> {
   destroy: () => void;
   update: (newProps: Partial<ModalComponentProps<P>>) => void;
 }
+
+export interface ModalConfig {
+  enforceProvider: boolean;
+}
