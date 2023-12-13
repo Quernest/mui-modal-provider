@@ -10,6 +10,7 @@ export interface Props {
 }
 
 export interface Options {
+  hideOnClose?: boolean
   destroyOnClose?: boolean;
   rootId?: string;
 }

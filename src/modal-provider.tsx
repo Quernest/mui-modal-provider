@@ -142,10 +142,12 @@ export default function ModalProvider({
       const { component: Component, props, options } = state[id];
 
       const handleClose = (...args: any[]) => {
+        if (options && options.hideOnClose) {
+          hide(id);
+        }
+
         if (options && options.destroyOnClose) {
           destroy(id);
-        } else {
-          hide(id);
         }
 
         if (props && props.onClose) {
