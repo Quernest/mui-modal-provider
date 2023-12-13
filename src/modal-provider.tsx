@@ -146,7 +146,7 @@ export default function ModalProvider({
           hide(id);
         }
 
-        if (options && options.destroyOnClose) {
+        if (options && options.destroyOnClose && options.hideOnClose) {
           destroy(id);
         }
 
