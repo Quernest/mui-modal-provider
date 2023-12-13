@@ -27,7 +27,7 @@ describe('ModalProvider', () => {
 
   const modalOptions: Options = {
     rootId,
-    hideOnClose: true
+    hideOnClose: true,
   };
 
   let uidSpy: jest.SpyInstance;
