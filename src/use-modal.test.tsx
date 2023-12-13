@@ -42,6 +42,7 @@ describe('useModal', () => {
         options: {
           rootId,
           destroyOnClose: true,
+          hideOnClose: true,
         },
         props: {
           open: true,

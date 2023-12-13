@@ -32,7 +32,11 @@ export default function useModal(options: UseModalOptions = defaultOptions) {
   return {
     showModal: useCallback<ShowFn>(
       (component, props, options) =>
-        showModal(component, props, { rootId: id.current, ...options }),
+        showModal(component, props, {
+          rootId: id.current,
+          hideOnClose: true,
+          ...options,
+        }),
       [showModal]
     ),
     destroyModal,
