@@ -15,31 +15,31 @@ export default function useModal(options: UseModalOptions = defaultOptions) {
   const { disableAutoDestroy } = { ...defaultOptions, ...options };
   const {
     showModal,
-    destroyModal,
+    destroyModalsByRootId,
     ...otherModalContextProps
   } = useModalContext();
-  const id = useRef<string>(uid(6));
+  const rootId = useRef<string>(uid(6));
 
   useEffect(
     () => () => {
-      if (!disableAutoDestroy && destroyModal) {
-        destroyModal(id.current);
+      if (!disableAutoDestroy && destroyModalsByRootId) {
+        destroyModalsByRootId(rootId.current);
       }
     },
-    [disableAutoDestroy, destroyModal]
+    [disableAutoDestroy, destroyModalsByRootId]
   );
 
   return {
     showModal: useCallback<ShowFn>(
       (component, props, options) =>
         showModal(component, props, {
-          rootId: id.current,
+          rootId: rootId.current,
           hideOnClose: true,
           ...options,
         }),
       [showModal]
     ),
-    destroyModal,
+    destroyModalsByRootId,
     ...otherModalContextProps,
   };
 }

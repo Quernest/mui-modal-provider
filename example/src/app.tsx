@@ -10,6 +10,7 @@ import {
   SimpleModal,
   TransitionModal,
 } from './components';
+import Route from './components/route'
 
 const SimpleLazyLoadedDialog = React.lazy(() =>
   import('./components/dialogs/simple-dialog-for-lazy-loading')
@@ -109,6 +110,9 @@ const App = () => {
         >
           transition modal
         </Button>
+      </Grid>
+      <Grid item>
+        <Route />
       </Grid>
     </Grid>
   );
