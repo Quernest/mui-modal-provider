@@ -206,7 +206,9 @@ export default function ModalProvider({
       }}
     >
       {children}
-      <SuspenseWrapper fallback={fallback}>{renderState()}</SuspenseWrapper>
+      <SuspenseWrapper {...(suspense && { fallback })}>
+        {renderState()}
+      </SuspenseWrapper>
     </ModalContext.Provider>
   );
 }
