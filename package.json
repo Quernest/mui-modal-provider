@@ -1,5 +1,5 @@
 {
-  "version": "2.4.5",
+  "version": "2.4.6",
   "license": "MIT",
   "name": "mui-modal-provider",
   "author": "Quernest",
@@ -97,16 +97,15 @@
     }
   },
   "devDependencies": {
-    "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@types/jest": "^28.1.8",
-    "@types/react": "^19.0.8",
+    "@types/react": "^16.8.6 || ^17.0.0 || ^18.0.0 || ^19.0.0",
     "@types/react-dom": "^19.0.3",
     "husky": "^4.2.5",
     "install-peers-cli": "^2.2.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
     "semantic-release": "^18.0.1",
     "tsdx": "^0.14.1",
     "tslib": "^2.8.1",
