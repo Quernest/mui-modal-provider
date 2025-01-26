@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  act,
-  renderHook,
-  WrapperComponent,
-} from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react';
 import { ModalProviderWrapper } from './test-utils';
 import useModal from './use-modal';
 import { ModalContextState } from './modal-context';
@@ -12,7 +8,7 @@ describe('ModalContext', () => {
   const rootId = '123';
   const modalId = '321';
 
-  const testHook = (wrapper?: WrapperComponent<any>) => {
+  const testHook = (wrapper?: any) => {
     const { result } = renderHook(() => useModal(), { wrapper });
     const ctx = result.current as ModalContextState;
 
@@ -27,10 +23,7 @@ describe('ModalContext', () => {
     return { ctx, performModalActions };
   };
 
-  const runTests = (
-    context: ModalContextState,
-    wrapper?: WrapperComponent<any>
-  ) => {
+  const runTests = (context: ModalContextState, wrapper?: any) => {
     const { performModalActions } = testHook(wrapper);
 
     act(() => {
